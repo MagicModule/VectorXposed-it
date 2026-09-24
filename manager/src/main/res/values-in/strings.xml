@@ -413,4 +413,35 @@
     <string name="launcher_prompt_title">Vector belum punya ikon</string>
     <string name="launcher_prompt_body">Vector berjalan di dalam proses lain alih-alih dipasang, jadi tidak ada yang muncul di launcher Anda dan tidak ada jalan kembali yang jelas. Beri dia pintasan di layar utama, atau pasang sebagai aplikasi biasa.</string>
     <string name="launcher_prompt_never">Jangan tanya lagi</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">Pengaturan</string>
+    <string name="settings_category_appearance">Tampilan &amp; personalisasi</string>
+    <string name="settings_appearance_summary">Mode gelap, skema warna, dan penyesuaian latar belakang</string>
+    <string name="settings_language_summary">Ganti bahasa tampilan aplikasi</string>
+    <string name="settings_category_core">Inti &amp; layanan</string>
+    <string name="settings_notification_summary">Tampilkan status aktivasi dan statistik runtime di panel notifikasi</string>
+    <string name="settings_category_version">Versi &amp; pembaruan</string>
+    <string name="settings_check_framework">Periksa pembaruan framework</string>
+    <string name="settings_check_framework_summary">Versi inti saat ini: v%1$s</string>
+    <string name="settings_canary_summary">Jalankan build percobaan terbaru</string>
+    <string name="settings_source_code">Kode sumber proyek</string>
+    <string name="settings_about">Tentang Vector-it</string>
+    <string name="settings_about_summary">Versi %1$s (%2$s) · Penulis JavSaia</string>
+    <string name="home_copied_info">Info framework dan perangkat disalin ke papan klip</string>
+    <string name="home_inactive_hint">Layanan inti tidak aktif — periksa modul Zygisk atau mulai ulang</string>
+    <string name="home_modules_manage">Ketuk untuk melihat dan mengelola modul</string>
+    <string name="home_quick_actions">Tindakan cepat &amp; dukungan</string>
+    <string name="home_diagnostics">Diagnostik</string>
+    <string name="home_update_available">Versi baru</string>
+    <string name="home_check_update">Periksa pembaruan</string>
+    <string name="modules_update_available">Pembaruan tersedia</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d modul aktif</item>
+        <item quantity="other">%1$d modul aktif</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">Berlaku untuk %1$d aplikasi</item>
+        <item quantity="other">Berlaku untuk %1$d aplikasi</item>
+    </plurals>
 </resources>

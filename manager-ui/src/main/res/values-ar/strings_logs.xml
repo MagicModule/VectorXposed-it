@@ -96,4 +96,9 @@
     <string name="logs_clear_confirm">مسح</string>
     <string name="logs_clear_done">تمّ مسح السجل</string>
     <string name="logs_clear_unreachable">تعذّر مسح السجل</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">تطبيق</string>
+    <string name="logs_filter_none">لم يبقَ ما ليُضيَّق به</string>
+    <string name="logs_filter_clear_writer">مسح مرشّح التطبيق</string>
 </resources>

@@ -420,4 +420,35 @@
     <string name="launcher_prompt_title">Vector hat noch kein Symbol</string>
     <string name="launcher_prompt_body">Vector läuft in einem fremden Prozess, statt installiert zu sein — im Launcher erscheint also nichts, und es gibt keinen offensichtlichen Weg zurück. Gib ihm eine Verknüpfung auf dem Startbildschirm, oder installiere es als gewöhnliche App.</string>
     <string name="launcher_prompt_never">Nicht mehr fragen</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">Einstellungen</string>
+    <string name="settings_category_appearance">Darstellung &amp; Personalisierung</string>
+    <string name="settings_appearance_summary">Dunkelmodus, Farbschema und Hintergrund anpassen</string>
+    <string name="settings_language_summary">Die Sprache der App ändern</string>
+    <string name="settings_category_core">Kern &amp; Dienste</string>
+    <string name="settings_notification_summary">Aktivierungsstatus und Laufzeitstatistiken in der Benachrichtigungsleiste anzeigen</string>
+    <string name="settings_category_version">Version &amp; Updates</string>
+    <string name="settings_check_framework">Nach Framework-Updates suchen</string>
+    <string name="settings_check_framework_summary">Aktuelle Kernversion: v%1$s</string>
+    <string name="settings_canary_summary">Die neuesten experimentellen Commit-Builds ausführen</string>
+    <string name="settings_source_code">Projekt-Quellcode</string>
+    <string name="settings_about">Über Vector-it</string>
+    <string name="settings_about_summary">Version %1$s (%2$s) · Autor JavSaia</string>
+    <string name="home_copied_info">Framework- und Geräteinformationen in die Zwischenablage kopiert</string>
+    <string name="home_inactive_hint">Der Kernservice ist inaktiv — prüfe das Zygisk-Modul oder starte neu</string>
+    <string name="home_modules_manage">Tippen, um Module anzuzeigen und zu verwalten</string>
+    <string name="home_quick_actions">Schnellaktionen &amp; Unterstützung</string>
+    <string name="home_diagnostics">Diagnose</string>
+    <string name="home_update_available">Neue Version</string>
+    <string name="home_check_update">Nach Updates suchen</string>
+    <string name="modules_update_available">Update verfügbar</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d Modul aktiv</item>
+        <item quantity="other">%1$d Module aktiv</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">Gilt für %1$d App</item>
+        <item quantity="other">Gilt für %1$d Apps</item>
+    </plurals>
 </resources>

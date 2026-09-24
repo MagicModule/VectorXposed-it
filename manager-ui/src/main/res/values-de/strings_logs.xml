@@ -84,4 +84,9 @@
     <string name="logs_clear_confirm">Leeren</string>
     <string name="logs_clear_done">Das Protokoll wurde geleert</string>
     <string name="logs_clear_unreachable">Das Protokoll konnte nicht geleert werden</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">App</string>
+    <string name="logs_filter_none">Nichts mehr einzuschränken</string>
+    <string name="logs_filter_clear_writer">App-Filter zurücksetzen</string>
 </resources>

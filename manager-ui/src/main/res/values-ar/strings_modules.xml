@@ -2,4 +2,7 @@
 <resources>
     <string name="modules_collapse">إظهار أقل</string>
     <string name="modules_expand">إظهار الوصف كاملًا</string>
+
+    <!-- Vector-it additions -->
+    <string name="modules_scope_more">+%1$d</string>
 </resources>

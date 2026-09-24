@@ -83,4 +83,9 @@
     <string name="logs_clear_confirm">Temizle</string>
     <string name="logs_clear_done">Günlük temizlendi</string>
     <string name="logs_clear_unreachable">Günlük temizlenemedi</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Uygulama</string>
+    <string name="logs_filter_none">Daraltacak başka bir şey kalmadı</string>
+    <string name="logs_filter_clear_writer">Uygulama filtresini temizle</string>
 </resources>

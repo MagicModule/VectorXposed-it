@@ -2,4 +2,7 @@
 <resources>
     <string name="modules_collapse">Tampilkan lebih sedikit</string>
     <string name="modules_expand">Tampilkan deskripsi lengkap</string>
+
+    <!-- Vector-it additions -->
+    <string name="modules_scope_more">+%1$d</string>
 </resources>

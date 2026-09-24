@@ -420,4 +420,35 @@
     <string name="launcher_prompt_title">Vector\'ün henüz bir simgesi yok</string>
     <string name="launcher_prompt_body">Vector kurulmak yerine başka bir sürecin içinde çalışır; bu yüzden başlatıcınızda hiçbir şey görünmez ve geri dönmenin bariz bir yolu yoktur. Ona ana ekranda bir kısayol verin ya da sıradan bir uygulama olarak kurun.</string>
     <string name="launcher_prompt_never">Bir daha sorma</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">Ayarlar</string>
+    <string name="settings_category_appearance">Görünüm ve kişiselleştirme</string>
+    <string name="settings_appearance_summary">Karanlık mod, renk şeması ve arka plan ayarları</string>
+    <string name="settings_language_summary">Uygulamanın görüntülenen dilini değiştir</string>
+    <string name="settings_category_core">Çekirdek ve hizmetler</string>
+    <string name="settings_notification_summary">Etkinleştirme durumunu ve çalışma istatistiklerini bildirim çubuğunda göster</string>
+    <string name="settings_category_version">Sürüm ve güncellemeler</string>
+    <string name="settings_check_framework">Framework güncellemelerini denetle</string>
+    <string name="settings_check_framework_summary">Geçerli çekirdek sürümü: v%1$s</string>
+    <string name="settings_canary_summary">En son deneysel commit derlemelerini çalıştır</string>
+    <string name="settings_source_code">Proje kaynak kodu</string>
+    <string name="settings_about">Vector-it hakkında</string>
+    <string name="settings_about_summary">Sürüm %1$s (%2$s) · Yazar JavSaia</string>
+    <string name="home_copied_info">Yapı ve cihaz bilgileri panoya kopyalandı</string>
+    <string name="home_inactive_hint">Çekirdek hizmeti etkin değil — Zygisk modülünü denetleyin ya da yeniden başlatın</string>
+    <string name="home_modules_manage">Modülleri görüntülemek ve yönetmek için dokunun</string>
+    <string name="home_quick_actions">Hızlı işlemler ve destek</string>
+    <string name="home_diagnostics">Tanılama</string>
+    <string name="home_update_available">Yeni sürüm</string>
+    <string name="home_check_update">Güncellemeleri denetle</string>
+    <string name="modules_update_available">Güncelleme var</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d modül etkin</item>
+        <item quantity="other">%1$d modül etkin</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">%1$d uygulamaya uygulanır</item>
+        <item quantity="other">%1$d uygulamaya uygulanır</item>
+    </plurals>
 </resources>

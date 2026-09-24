@@ -409,4 +409,35 @@
     <string name="launcher_prompt_title">Vector에 아직 아이콘이 없습니다</string>
     <string name="launcher_prompt_body">Vector는 설치되는 대신 다른 프로세스 안에서 실행되므로 런처에 아무것도 나타나지 않고 다시 들어올 뚜렷한 방법도 없습니다. 홈 화면 바로가기를 만들거나, 일반 앱으로 설치하세요.</string>
     <string name="launcher_prompt_never">다시 묻지 않기</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">설정</string>
+    <string name="settings_category_appearance">모양 및 사용자 설정</string>
+    <string name="settings_appearance_summary">다크 모드, 색 구성표, 배경 조정</string>
+    <string name="settings_language_summary">앱 표시 언어 변경</string>
+    <string name="settings_category_core">코어 및 서비스</string>
+    <string name="settings_notification_summary">알림 영역에 활성화 상태 및 실행 통계 표시</string>
+    <string name="settings_category_version">버전 및 업데이트</string>
+    <string name="settings_check_framework">프레임워크 업데이트 확인</string>
+    <string name="settings_check_framework_summary">현재 코어 버전: v%1$s</string>
+    <string name="settings_canary_summary">최신 실험 커밋 빌드 실행</string>
+    <string name="settings_source_code">프로젝트 소스 코드</string>
+    <string name="settings_about">Vector-it 정보</string>
+    <string name="settings_about_summary">버전 %1$s (%2$s) · 제작자 JavSaia</string>
+    <string name="home_copied_info">프레임워크 및 기기 정보가 클립보드에 복사되었습니다</string>
+    <string name="home_inactive_hint">코어 서비스가 비활성입니다 — Zygisk 모듈을 확인하거나 다시 시작하세요</string>
+    <string name="home_modules_manage">눌러 모듈 보기 및 관리</string>
+    <string name="home_quick_actions">빠른 작업 및 지원</string>
+    <string name="home_diagnostics">진단</string>
+    <string name="home_update_available">새 버전</string>
+    <string name="home_check_update">업데이트 확인</string>
+    <string name="modules_update_available">업데이트 있음</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d개 모듈 활성</item>
+        <item quantity="other">%1$d개 모듈 활성</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">%1$d개 애플리케이션에 적용</item>
+        <item quantity="other">%1$d개 애플리케이션에 적용</item>
+    </plurals>
 </resources>

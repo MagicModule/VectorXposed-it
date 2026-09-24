@@ -420,4 +420,35 @@
     <string name="launcher_prompt_title">Vector هنوز نمادی ندارد</string>
     <string name="launcher_prompt_body">Vector به‌جای آنکه نصب شده باشد درون فرایندی دیگر اجرا می‌شود، پس چیزی در لانچر پیدا نمی‌شود و راه روشنی برای بازگشت به آن نیست. به آن میان‌بری در صفحهٔ اصلی بدهید، یا آن را مانند برنامه‌ای معمولی نصب کنید.</string>
     <string name="launcher_prompt_never">دیگر پرسیده نشود</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">تنظیمات</string>
+    <string name="settings_category_appearance">ظاهر و شخصی‌سازی</string>
+    <string name="settings_appearance_summary">حالت تیره، طرح رنگی و تنظیم پس‌زمینه</string>
+    <string name="settings_language_summary">زبان نمایش برنامه را تغییر دهید</string>
+    <string name="settings_category_core">هسته و سرویس‌ها</string>
+    <string name="settings_notification_summary">نمایش وضعیت فعال‌سازی و آمار اجرا در نوار اعلان‌ها</string>
+    <string name="settings_category_version">نسخه و به‌روزرسانی‌ها</string>
+    <string name="settings_check_framework">بررسی به‌روزرسانی‌های فریم‌ورک</string>
+    <string name="settings_check_framework_summary">نسخه فعلی هسته: v%1$s</string>
+    <string name="settings_canary_summary">جدیدترین ساخت‌های آزمایشی را اجرا کنید</string>
+    <string name="settings_source_code">کد منبع پروژه</string>
+    <string name="settings_about">درباره Vector-it</string>
+    <string name="settings_about_summary">نسخه %1$s (%2$s) · نویسنده JavSaia</string>
+    <string name="home_copied_info">اطلاعات فریم‌ورک و دستگاه در کلیپ‌بورد کپی شد</string>
+    <string name="home_inactive_hint">سرویس هسته غیرفعال است — ماژول Zygisk را بررسی کنید یا دستگاه را راه‌اندازی مجدد کنید</string>
+    <string name="home_modules_manage">برای مشاهده و مدیریت ماژول‌ها ضربه بزنید</string>
+    <string name="home_quick_actions">اقدامات سریع و پشتیبانی</string>
+    <string name="home_diagnostics">عیب‌یابی</string>
+    <string name="home_update_available">نسخه جدید</string>
+    <string name="home_check_update">بررسی به‌روزرسانی‌ها</string>
+    <string name="modules_update_available">به‌روزرسانی موجود است</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d ماژول فعال</item>
+        <item quantity="other">%1$d ماژول فعال</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">بر %1$d برنامه اعمال می‌شود</item>
+        <item quantity="other">بر %1$d برنامه اعمال می‌شود</item>
+    </plurals>
 </resources>

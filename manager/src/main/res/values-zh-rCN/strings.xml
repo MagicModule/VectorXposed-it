@@ -411,4 +411,34 @@
     <string name="launcher_prompt_title">Vector 还没有图标</string>
     <string name="launcher_prompt_body">Vector 运行在别的进程里，而不是被安装到系统中，所以桌面上看不到它，也没有明显的途径再打开它。给它一个桌面快捷方式，或者把它安装成一个普通应用。</string>
     <string name="launcher_prompt_never">不再询问</string>
+
+    <!-- Vector-it additions -->
+    <string name="settings_category_appearance">外观与个性化</string>
+    <string name="settings_appearance_summary">深色模式、主题色系及背景微调</string>
+    <string name="settings_language_summary">切换应用显示语言</string>
+    <string name="settings_category_core">核心与服务</string>
+    <string name="settings_notification_summary">在通知栏实时展示激活状态与运行统计</string>
+    <string name="settings_category_version">版本与更新</string>
+    <string name="settings_check_framework">检查框架版本</string>
+    <string name="settings_check_framework_summary">当前核心版本：v%1$s</string>
+    <string name="settings_canary_summary">体验最新的实验性提交构建</string>
+    <string name="settings_source_code">项目源代码</string>
+    <string name="settings_about">关于 Vector-it</string>
+    <string name="settings_about_summary">版本 %1$s (%2$s) · 作者 JavSaia</string>
+    <string name="home_copied_info">已复制框架与设备信息到剪贴板</string>
+    <string name="home_inactive_hint">核心服务未激活，请检查 Zygisk 模块或重启设备</string>
+    <string name="home_modules_manage">点击查看并管理模块</string>
+    <string name="home_quick_actions">快捷操作与支持</string>
+    <string name="home_diagnostics">系统诊断</string>
+    <string name="home_update_available">有新版本</string>
+    <string name="home_check_update">检查更新</string>
+    <string name="modules_update_available">有更新</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d 个模块已激活</item>
+        <item quantity="other">%1$d 个模块已激活</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">作用于 %1$d 个应用</item>
+        <item quantity="other">作用于 %1$d 个应用</item>
+    </plurals>
 </resources>

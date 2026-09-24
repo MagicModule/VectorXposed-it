@@ -89,4 +89,9 @@
     <string name="logs_clear_confirm">Очистити</string>
     <string name="logs_clear_done">Журнал очищено</string>
     <string name="logs_clear_unreachable">Не вдалося очистити журнал</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Застосунок</string>
+    <string name="logs_filter_none">Більше нема чого звужувати</string>
+    <string name="logs_filter_clear_writer">Скинути фільтр застосунку</string>
 </resources>
