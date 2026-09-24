@@ -2,4 +2,7 @@
 <resources>
     <string name="modules_collapse">簡易表示</string>
     <string name="modules_expand">説明をすべて表示</string>
+
+    <!-- Vector-it additions -->
+    <string name="modules_scope_more">+%1$d</string>
 </resources>

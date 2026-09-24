@@ -2,4 +2,7 @@
 <resources>
     <string name="modules_collapse">Afficher moins</string>
     <string name="modules_expand">Afficher la description complète</string>
+
+    <!-- Vector-it additions -->
+    <string name="modules_scope_more">+%1$d</string>
 </resources>

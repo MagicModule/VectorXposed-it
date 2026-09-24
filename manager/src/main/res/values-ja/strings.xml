@@ -399,4 +399,35 @@
     <string name="launcher_prompt_title">Vector のアイコンはまだありません</string>
     <string name="launcher_prompt_body">Vector はインストールされるのではなく、別のプロセス内で実行されるため、ランチャーには何も表示されず、Vector に戻ってくる手段もありません。ホーム画面にショートカットを作成するか、通常のアプリとしてインストールしてください。</string>
     <string name="launcher_prompt_never">今後表示しない</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">設定</string>
+    <string name="settings_category_appearance">外観とパーソナライズ</string>
+    <string name="settings_appearance_summary">ダークモード、カラースキーム、背景の微調整</string>
+    <string name="settings_language_summary">アプリの表示言語を変更</string>
+    <string name="settings_category_core">コアとサービス</string>
+    <string name="settings_notification_summary">通知バーに有効化状態と実行統計を表示</string>
+    <string name="settings_category_version">バージョンとアップデート</string>
+    <string name="settings_check_framework">フレームワークのアップデートを確認</string>
+    <string name="settings_check_framework_summary">現在のコアバージョン: v%1$s</string>
+    <string name="settings_canary_summary">最新の実験的コミットビルドを実行</string>
+    <string name="settings_source_code">プロジェクトのソースコード</string>
+    <string name="settings_about">Vector-itについて</string>
+    <string name="settings_about_summary">バージョン %1$s (%2$s) · 作者 JavSaia</string>
+    <string name="home_copied_info">フレームワークとデバイスの情報をクリップボードにコピーしました</string>
+    <string name="home_inactive_hint">コアサービスが稼働していません — Zygiskモジュールを確認するか再起動してください</string>
+    <string name="home_modules_manage">タップしてモジュールを表示・管理</string>
+    <string name="home_quick_actions">クイック操作とサポート</string>
+    <string name="home_diagnostics">診断</string>
+    <string name="home_update_available">新しいバージョン</string>
+    <string name="home_check_update">アップデートを確認</string>
+    <string name="modules_update_available">アップデートあり</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d 個のモジュールが有効</item>
+        <item quantity="other">%1$d 個のモジュールが有効</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">%1$d 個のアプリに適用</item>
+        <item quantity="other">%1$d 個のアプリに適用</item>
+    </plurals>
 </resources>

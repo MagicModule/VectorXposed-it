@@ -464,4 +464,41 @@
     <string name="launcher_prompt_title">ليس لـ Vector أيقونة بعد</string>
     <string name="launcher_prompt_body">يعمل Vector داخل عملية أخرى بدل أن يكون مثبَّتًا، فلا يظهر شيء في المشغّل ولا توجد طريقة واضحة للعودة إليه. امنحه اختصارًا على الشاشة الرئيسية، أو ثبِّته كتطبيق عادي.</string>
     <string name="launcher_prompt_never">عدم السؤال مجددًا</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">الإعدادات</string>
+    <string name="settings_category_appearance">المظهر والتخصيص</string>
+    <string name="settings_appearance_summary">الوضع الداكن ونظام الألوان وضبط الخلفية</string>
+    <string name="settings_language_summary">تغيير لغة عرض التطبيق</string>
+    <string name="settings_category_core">النواة والخدمات</string>
+    <string name="settings_notification_summary">عرض حالة التفعيل وإحصاءات التشغيل في شريط الإشعارات</string>
+    <string name="settings_category_version">الإصدار والتحديثات</string>
+    <string name="settings_check_framework">التحقق من تحديثات الإطار البرمجي</string>
+    <string name="settings_check_framework_summary">إصدار النواة الحالي: v%1$s</string>
+    <string name="settings_canary_summary">جرّب أحدث الإصدارات التجريبية</string>
+    <string name="settings_source_code">الشيفرة المصدرية للمشروع</string>
+    <string name="settings_about">حول Vector-it</string>
+    <string name="settings_about_summary">الإصدار %1$s (%2$s) · المؤلف JavSaia</string>
+    <string name="home_copied_info">تم نسخ معلومات الإطار والجهاز إلى الحافظة</string>
+    <string name="home_inactive_hint">خدمة النواة غير نشطة — تحقق من وحدة Zygisk أو أعد التشغيل</string>
+    <string name="home_modules_manage">اضغط لعرض الوحدات وإدارتها</string>
+    <string name="home_quick_actions">إجراءات سريعة ودعم</string>
+    <string name="home_diagnostics">التشخيص</string>
+    <string name="home_update_available">إصدار جديد</string>
+    <string name="home_check_update">التحقق من التحديثات</string>
+    <string name="modules_update_available">يوجد تحديث</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d وحدة نشطة</item>
+        <item quantity="two">%1$d وحدتان نشطتان</item>
+        <item quantity="few">%1$d وحدات نشطة</item>
+        <item quantity="many">%1$d وحدة نشطة</item>
+        <item quantity="other">%1$d وحدة نشطة</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">يطبق على %1$d تطبيق</item>
+        <item quantity="two">يطبق على تطبيقين</item>
+        <item quantity="few">يطبق على %1$d تطبيقات</item>
+        <item quantity="many">يطبق على %1$d تطبيقًا</item>
+        <item quantity="other">يطبق على %1$d تطبيق</item>
+    </plurals>
 </resources>

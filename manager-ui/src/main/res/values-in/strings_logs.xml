@@ -81,4 +81,9 @@
     <string name="logs_clear_confirm">Bersihkan</string>
     <string name="logs_clear_done">Log telah dibersihkan</string>
     <string name="logs_clear_unreachable">Tidak dapat membersihkan log</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Aplikasi</string>
+    <string name="logs_filter_none">Tidak ada lagi yang bisa dipersempit</string>
+    <string name="logs_filter_clear_writer">Hapus filter aplikasi</string>
 </resources>

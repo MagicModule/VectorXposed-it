@@ -81,4 +81,9 @@
     <string name="logs_clear_confirm">清空</string>
     <string name="logs_clear_done">日誌已清空</string>
     <string name="logs_clear_unreachable">無法清空日誌</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">應用</string>
+    <string name="logs_filter_none">沒有更多可篩選項目</string>
+    <string name="logs_filter_clear_writer">清除應用程式篩選</string>
 </resources>

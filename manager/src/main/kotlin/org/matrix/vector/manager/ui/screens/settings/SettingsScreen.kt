@@ -60,16 +60,16 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 8.dp)
         ) {
-            SettingCategory(title = "外观与个性化")
+            SettingCategory(title = stringResource(R.string.settings_category_appearance))
             SettingSlot(
                 title = stringResource(R.string.appearance_title),
-                description = "深色模式、主题色系及背景微调",
+                description = stringResource(R.string.settings_appearance_summary),
                 icon = Icons.Rounded.Palette,
                 onClick = { showAppearance = true }
             )
             SettingSlot(
                 title = stringResource(R.string.language_title),
-                description = "切换应用显示语言",
+                description = stringResource(R.string.settings_language_summary),
                 icon = Icons.Rounded.Translate,
                 onClick = { showLanguage = true }
             )
@@ -79,10 +79,10 @@ fun SettingsScreen(
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
             )
 
-            SettingCategory(title = "核心与服务")
+            SettingCategory(title = stringResource(R.string.settings_category_core))
             SettingSwitch(
                 title = stringResource(R.string.status_notification),
-                description = "在通知栏实时展示激活状态与运行统计",
+                description = stringResource(R.string.settings_notification_summary),
                 icon = Icons.Rounded.Notifications,
                 checked = statusNotification,
                 onCheckedChange = { viewModel.setStatusNotification(it) },
@@ -97,7 +97,7 @@ fun SettingsScreen(
             )
             SettingSlot(
                 title = stringResource(R.string.action_soft_reboot),
-                description = "重新启动 Android 运行时（无需重启整机）",
+                description = stringResource(R.string.action_soft_reboot_summary),
                 icon = Icons.Rounded.RestartAlt,
                 onClick = {
                     scope.launch {
@@ -112,28 +112,33 @@ fun SettingsScreen(
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
             )
 
-            SettingCategory(title = "版本与更新")
+            SettingCategory(title = stringResource(R.string.settings_category_version))
             SettingSlot(
-                title = "检查框架版本",
-                description = "当前核心版本：v${status.versionLabel ?: "2.2"}",
+                title = stringResource(R.string.settings_check_framework),
+                description = stringResource(R.string.settings_check_framework_summary, status.versionLabel ?: "2.2"),
                 icon = Icons.Rounded.SystemUpdate,
                 onClick = onOpenUpdate
             )
             SettingSlot(
-                title = "Canary 尝鲜测试",
-                description = "体验最新的实验性提交构建",
+                title = stringResource(R.string.update_channel_canary),
+                description = stringResource(R.string.settings_canary_summary),
                 icon = Icons.Rounded.Science,
                 onClick = onOpenCanary
             )
             SettingSlot(
-                title = "项目源代码",
+                title = stringResource(R.string.settings_source_code),
                 description = GitHubRepository.REPO_URL,
                 icon = Icons.Rounded.Code,
                 onClick = { onOpenUrl(GitHubRepository.REPO_URL) }
             )
             SettingSlot(
-                title = "关于 Vector-it",
-                description = "版本 ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) · 作者 JavSaia",
+                title = stringResource(R.string.settings_about),
+                description =
+                    stringResource(
+                        R.string.settings_about_summary,
+                        BuildConfig.VERSION_NAME,
+                        BuildConfig.VERSION_CODE,
+                    ),
                 icon = Icons.Rounded.Info,
                 onClick = {}
             )

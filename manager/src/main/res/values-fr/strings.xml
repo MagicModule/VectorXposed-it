@@ -420,4 +420,35 @@
     <string name="launcher_prompt_title">Vector n\'a pas encore d\'icône</string>
     <string name="launcher_prompt_body">Vector s\'exécute dans un autre processus au lieu d\'être installé : rien n\'apparaît dans votre lanceur et il n\'y a pas de moyen évident d\'y revenir. Donnez-lui un raccourci sur l\'écran d\'accueil, ou installez-le comme une application ordinaire.</string>
     <string name="launcher_prompt_never">Ne plus demander</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">Paramètres</string>
+    <string name="settings_category_appearance">Apparence et personnalisation</string>
+    <string name="settings_appearance_summary">Mode sombre, jeu de couleurs et réglages du fond d\'écran</string>
+    <string name="settings_language_summary">Changer la langue de l\'application</string>
+    <string name="settings_category_core">Cœur et services</string>
+    <string name="settings_notification_summary">Afficher l\'état d\'activation et les statistiques dans la barre de notifications</string>
+    <string name="settings_category_version">Version et mises à jour</string>
+    <string name="settings_check_framework">Rechercher les mises à jour du framework</string>
+    <string name="settings_check_framework_summary">Version du cœur actuelle : v%1$s</string>
+    <string name="settings_canary_summary">Exécuter les builds expérimentaux les plus récents</string>
+    <string name="settings_source_code">Code source du projet</string>
+    <string name="settings_about">À propos de Vector-it</string>
+    <string name="settings_about_summary">Version %1$s (%2$s) · Auteur JavSaia</string>
+    <string name="home_copied_info">Informations sur le framework et l\'appareil copiées dans le presse-papiers</string>
+    <string name="home_inactive_hint">Le service central est inactif — vérifiez le module Zygisk ou redémarrez</string>
+    <string name="home_modules_manage">Appuyez pour afficher et gérer les modules</string>
+    <string name="home_quick_actions">Actions rapides et assistance</string>
+    <string name="home_diagnostics">Diagnostics</string>
+    <string name="home_update_available">Nouvelle version</string>
+    <string name="home_check_update">Rechercher des mises à jour</string>
+    <string name="modules_update_available">Mise à jour disponible</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d module actif</item>
+        <item quantity="other">%1$d modules actifs</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">S\'applique à %1$d application</item>
+        <item quantity="other">S\'applique à %1$d applications</item>
+    </plurals>
 </resources>

@@ -482,4 +482,39 @@
     <string name="launcher_prompt_title">Vector nie ma jeszcze ikony</string>
     <string name="launcher_prompt_body">Vector działa w ramach innego procesu i nie jest instalowany, więc nic nie pojawia się w launcherze, więc nie ma oczywistej drogi powrotu. Dodaj skrót na ekranie głównym lub zainstaluj go jako zwykłą aplikację.</string>
     <string name="launcher_prompt_never">Nie pytaj ponownie</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">Ustawienia</string>
+    <string name="settings_category_appearance">Wygląd i personalizacja</string>
+    <string name="settings_appearance_summary">Tryb ciemny, zestaw kolorów i tło</string>
+    <string name="settings_language_summary">Zmień język interfejsu</string>
+    <string name="settings_category_core">Rdzeń i usługi</string>
+    <string name="settings_notification_summary">Pokazuj stan aktywacji i statystyki w pasku powiadomień</string>
+    <string name="settings_category_version">Wersja i aktualizacje</string>
+    <string name="settings_check_framework">Sprawdź aktualizacje frameworka</string>
+    <string name="settings_check_framework_summary">Aktualna wersja rdzenia: v%1$s</string>
+    <string name="settings_canary_summary">Uruchamiaj najnowsze kompilacje eksperymentalne</string>
+    <string name="settings_source_code">Kod źródłowy projektu</string>
+    <string name="settings_about">Informacje o Vector-it</string>
+    <string name="settings_about_summary">Wersja %1$s (%2$s) · Autor JavSaia</string>
+    <string name="home_copied_info">Informacje o frameworku i urządzeniu skopiowane do schowka</string>
+    <string name="home_inactive_hint">Usługa rdzenia jest nieaktywna — sprawdź moduł Zygisk lub uruchom ponownie</string>
+    <string name="home_modules_manage">Dotknij, aby wyświetlić i zarządzać modułami</string>
+    <string name="home_quick_actions">Szybkie działania i pomoc</string>
+    <string name="home_diagnostics">Diagnostyka</string>
+    <string name="home_update_available">Nowa wersja</string>
+    <string name="home_check_update">Sprawdź aktualizacje</string>
+    <string name="modules_update_available">Dostępna aktualizacja</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d moduł aktywny</item>
+        <item quantity="few">%1$d moduły aktywne</item>
+        <item quantity="many">%1$d modułów aktywnych</item>
+        <item quantity="other">%1$d modułu aktywnego</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">Dotyczy %1$d aplikacji</item>
+        <item quantity="few">Dotyczy %1$d aplikacji</item>
+        <item quantity="many">Dotyczy %1$d aplikacji</item>
+        <item quantity="other">Dotyczy %1$d aplikacji</item>
+    </plurals>
 </resources>

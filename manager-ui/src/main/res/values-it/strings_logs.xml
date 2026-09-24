@@ -83,4 +83,9 @@
     <string name="logs_clear_confirm">Svuota</string>
     <string name="logs_clear_done">Il log è stato svuotato</string>
     <string name="logs_clear_unreachable">Impossibile svuotare il log</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">App</string>
+    <string name="logs_filter_none">Nessun altro criterio da restringere</string>
+    <string name="logs_filter_clear_writer">Cancella il filtro app</string>
 </resources>

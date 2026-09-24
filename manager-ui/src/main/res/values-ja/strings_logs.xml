@@ -87,4 +87,9 @@
     <string name="logs_clear_confirm">消去</string>
     <string name="logs_clear_done">ログを消去しました</string>
     <string name="logs_clear_unreachable">ログを消去できませんでした</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">アプリ</string>
+    <string name="logs_filter_none">絞り込みの条件がありません</string>
+    <string name="logs_filter_clear_writer">アプリの絞り込みを解除</string>
 </resources>

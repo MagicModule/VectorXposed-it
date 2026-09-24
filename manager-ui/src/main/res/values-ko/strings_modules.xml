@@ -2,4 +2,7 @@
 <resources>
     <string name="modules_collapse">간략히 보기</string>
     <string name="modules_expand">전체 설명 보기</string>
+
+    <!-- Vector-it additions -->
+    <string name="modules_scope_more">+%1$d</string>
 </resources>

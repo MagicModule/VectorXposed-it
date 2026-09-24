@@ -409,4 +409,35 @@
     <string name="launcher_prompt_title">Vector vẫn chưa có biểu tượng</string>
     <string name="launcher_prompt_body">Vector chạy bên trong một tiến trình khác thay vì được cài đặt, nên không có gì hiện ra trong trình khởi chạy và cũng không có cách quay lại rõ ràng. Hãy tạo cho nó một lối tắt trên màn hình chính, hoặc cài nó như một ứng dụng bình thường.</string>
     <string name="launcher_prompt_never">Đừng hỏi lại</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">Cài đặt</string>
+    <string name="settings_category_appearance">Giao diện và cá nhân hóa</string>
+    <string name="settings_appearance_summary">Chế độ tối, bảng màu và nền</string>
+    <string name="settings_language_summary">Đổi ngôn ngữ hiển thị của ứng dụng</string>
+    <string name="settings_category_core">Lõi và dịch vụ</string>
+    <string name="settings_notification_summary">Hiển thị trạng thái kích hoạt và thống kê chạy trong thanh thông báo</string>
+    <string name="settings_category_version">Phiên bản và cập nhật</string>
+    <string name="settings_check_framework">Kiểm tra cập nhật khung phần mềm</string>
+    <string name="settings_check_framework_summary">Phiên bản lõi hiện tại: v%1$s</string>
+    <string name="settings_canary_summary">Chạy các bản dựng thử nghiệm mới nhất</string>
+    <string name="settings_source_code">Mã nguồn dự án</string>
+    <string name="settings_about">Giới thiệu Vector-it</string>
+    <string name="settings_about_summary">Phiên bản %1$s (%2$s) · Tác giả JavSaia</string>
+    <string name="home_copied_info">Thông tin khung phần mềm và thiết bị đã sao chép vào bộ nhớ tạm</string>
+    <string name="home_inactive_hint">Dịch vụ lõi chưa hoạt động — kiểm tra mô-đun Zygisk hoặc khởi động lại</string>
+    <string name="home_modules_manage">Chạm để xem và quản lý mô-đun</string>
+    <string name="home_quick_actions">Thao tác nhanh và hỗ trợ</string>
+    <string name="home_diagnostics">Chẩn đoán</string>
+    <string name="home_update_available">Phiên bản mới</string>
+    <string name="home_check_update">Kiểm tra cập nhật</string>
+    <string name="modules_update_available">Có bản cập nhật</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d mô-đun đang bật</item>
+        <item quantity="other">%1$d mô-đun đang bật</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">Áp dụng cho %1$d ứng dụng</item>
+        <item quantity="other">Áp dụng cho %1$d ứng dụng</item>
+    </plurals>
 </resources>

@@ -15,6 +15,20 @@
     <string name="nav_logs">Logs</string>
     <string name="nav_settings">Settings</string>
 
+    <!-- Settings screen -->
+    <string name="settings_category_appearance">Appearance &amp; personalisation</string>
+    <string name="settings_appearance_summary">Dark mode, colour scheme and background tweaks</string>
+    <string name="settings_language_summary">Change the language the app displays in</string>
+    <string name="settings_category_core">Core &amp; services</string>
+    <string name="settings_notification_summary">Show activation status and runtime stats in the notification shade</string>
+    <string name="settings_category_version">Version &amp; updates</string>
+    <string name="settings_check_framework">Check for framework updates</string>
+    <string name="settings_check_framework_summary">Current core version: v%1$s</string>
+    <string name="settings_canary_summary">Run the newest experimental commit builds</string>
+    <string name="settings_source_code">Project source code</string>
+    <string name="settings_about">About Vector-it</string>
+    <string name="settings_about_summary">Version %1$s (%2$s) · Author JavSaia</string>
+
     <!-- Rearranging the panels, and the ball that can stand in for the bar -->
     <string name="panels_done">Done</string>
     <!-- Example: "Hide Store". The name is one of the four panels above. -->
@@ -145,6 +159,19 @@
         <item quantity="other">%1$d days quiet</item>
     </plurals>
 
+    <!-- Home: status, modules and support cards -->
+    <string name="home_copied_info">Framework and device info copied to the clipboard</string>
+    <string name="home_inactive_hint">The core service is inactive — check the Zygisk module or reboot</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d module active</item>
+        <item quantity="other">%1$d modules active</item>
+    </plurals>
+    <string name="home_modules_manage">Tap to view and manage modules</string>
+    <string name="home_quick_actions">Quick actions &amp; support</string>
+    <string name="home_diagnostics">Diagnostics</string>
+    <string name="home_update_available">New version</string>
+    <string name="home_check_update">Check for updates</string>
+
     <!-- Home appearance sheet. Settings live beside what they change, not in one heap. -->
     <string name="appearance_title">Appearance</string>
     <string name="appearance_theme">Theme</string>
@@ -177,6 +204,11 @@
     <string name="modules_update_reinstall">Reinstall %1$s · %2$s</string>
     <string name="modules_update_ignored">Ignored</string>
     <string name="modules_update_selected">Update %1$d</string>
+    <string name="modules_update_available">Update available</string>
+    <plurals name="modules_scope_count">
+        <item quantity="one">Applies to %1$d app</item>
+        <item quantity="other">Applies to %1$d apps</item>
+    </plurals>
     <string name="modules_active_of">%1$d of %2$d active</string>
     <string name="modules_no_match">No module matches that search or filter.</string>
     <string name="modules_api_scale_legacy" translatable="false">Xposed</string>

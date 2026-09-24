@@ -81,4 +81,9 @@
     <string name="logs_clear_confirm">Xoá</string>
     <string name="logs_clear_done">Đã xoá nhật ký</string>
     <string name="logs_clear_unreachable">Không thể xoá nhật ký</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Ứng dụng</string>
+    <string name="logs_filter_none">Không còn gì để thu hẹp</string>
+    <string name="logs_filter_clear_writer">Xóa bộ lọc ứng dụng</string>
 </resources>

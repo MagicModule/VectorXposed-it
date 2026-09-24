@@ -84,4 +84,9 @@
     <string name="logs_clear_confirm">Limpar</string>
     <string name="logs_clear_done">O registro foi limpo</string>
     <string name="logs_clear_unreachable">Não foi possível limpar o registro</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Aplicativo</string>
+    <string name="logs_filter_none">Nada mais para restringir</string>
+    <string name="logs_filter_clear_writer">Limpar o filtro de aplicativo</string>
 </resources>

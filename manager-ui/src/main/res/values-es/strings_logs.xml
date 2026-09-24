@@ -84,4 +84,9 @@
     <string name="logs_clear_confirm">Vaciar</string>
     <string name="logs_clear_done">El registro se ha vaciado</string>
     <string name="logs_clear_unreachable">No se pudo vaciar el registro</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Aplicación</string>
+    <string name="logs_filter_none">No queda nada por estrechar</string>
+    <string name="logs_filter_clear_writer">Quitar el filtro de aplicación</string>
 </resources>

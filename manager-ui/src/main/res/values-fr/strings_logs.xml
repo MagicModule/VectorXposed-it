@@ -84,4 +84,9 @@
     <string name="logs_clear_confirm">Effacer</string>
     <string name="logs_clear_done">Le journal a été effacé</string>
     <string name="logs_clear_unreachable">Impossible d\'effacer le journal</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Application</string>
+    <string name="logs_filter_none">Plus rien à affiner</string>
+    <string name="logs_filter_clear_writer">Effacer le filtre d\'application</string>
 </resources>

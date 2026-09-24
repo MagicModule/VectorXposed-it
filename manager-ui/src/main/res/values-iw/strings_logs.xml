@@ -89,4 +89,9 @@
     <string name="logs_clear_confirm">ניקוי</string>
     <string name="logs_clear_done">היומן נוקה</string>
     <string name="logs_clear_unreachable">לא ניתן לנקות את היומן</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">אפליקציה</string>
+    <string name="logs_filter_none">אין עוד מה לצמצם</string>
+    <string name="logs_filter_clear_writer">נקה סינון אפליקציה</string>
 </resources>

@@ -81,4 +81,9 @@
     <string name="logs_clear_confirm">지우기</string>
     <string name="logs_clear_done">로그를 지웠습니다</string>
     <string name="logs_clear_unreachable">로그를 지우지 못했습니다</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">앱</string>
+    <string name="logs_filter_none">좁힐 항목이 없음</string>
+    <string name="logs_filter_clear_writer">앱 필터 지우기</string>
 </resources>

@@ -991,7 +991,7 @@ private fun ModuleListItem(
                 ApiBadge(module = module, incompatible = incompatible)
                 if (hasUpdate) {
                     Text(
-                        text = "有更新",
+                        text = stringResource(R.string.modules_update_available),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
@@ -1013,7 +1013,7 @@ private fun ModuleListItem(
             } else if (facts?.scopeCount != null && facts.scopeCount > 0) {
                 Spacer(Modifier.height(2.dp))
                 Text(
-                    text = "作用于 ${facts.scopeCount} 个应用",
+                    text = stringResource(R.plurals.modules_scope_count, facts.scopeCount, facts.scopeCount),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
                 )

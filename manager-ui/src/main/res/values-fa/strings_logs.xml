@@ -84,4 +84,9 @@
     <string name="logs_clear_confirm">پاک کردن</string>
     <string name="logs_clear_done">گزارش پاک شد</string>
     <string name="logs_clear_unreachable">پاک کردن گزارش ممکن نشد</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">برنامه</string>
+    <string name="logs_filter_none">چیزی برای تنگ‌تر کردن باقی نمانده</string>
+    <string name="logs_filter_clear_writer">پاک کردن فیلتر برنامه</string>
 </resources>

@@ -2,4 +2,7 @@
 <resources>
     <string name="modules_collapse">Згорнути</string>
     <string name="modules_expand">Показати повний опис</string>
+
+    <!-- Vector-it additions -->
+    <string name="modules_scope_more">+%1$d</string>
 </resources>

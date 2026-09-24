@@ -362,9 +362,9 @@ fun HomeScreen(
                             status = status,
                             onCopy = { infoText ->
                                 val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                cm.setPrimaryClip(ClipData.newPlainText("Vector-it", infoText))
+                                cm.setPrimaryClip(ClipData.newPlainText(context.getString(R.string.app_name), infoText))
                                 eggScope.launch {
-                                    snackbars.show("已复制框架与设备信息到剪贴板")
+                                    snackbars.show(context.getString(R.string.home_copied_info))
                                 }
                             }
                         )
@@ -1057,14 +1057,14 @@ private fun LsPatchStatusCard(
                 )
                 Column(Modifier.padding(start = 14.dp).weight(1f)) {
                     Text(
-                        text = "Vector-it " + stringResource(status.state.statusWordRes()),
+                        text = stringResource(R.string.app_name) + " " + stringResource(status.state.statusWordRes()),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onErrorContainer
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        text = "核心服务未激活，请检查 Zygisk 模块或重启设备",
+                        text = stringResource(R.string.home_inactive_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f)
                     )
@@ -1105,13 +1105,18 @@ private fun LsPatchModulesCard(
             )
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "模块管理",
+                    text = stringResource(R.string.nav_modules),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(Modifier.height(1.dp))
                 Text(
-                    text = if (enabledCount > 0) "已激活 $enabledCount 个模块" else "点击查看并管理模块",
+                    text =
+                        if (enabledCount > 0) {
+                            stringResource(R.plurals.home_modules_active, enabledCount, enabledCount)
+                        } else {
+                            stringResource(R.string.home_modules_manage)
+                        },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -1185,13 +1190,16 @@ private fun LsPatchInfoCard(
                 }
             }
 
-            infoRow("API 版本", "${status.apiVersion ?: 102}")
-            infoRow("Vector-it 核心版本", "${status.versionName ?: "2.2"} (${status.versionCode})")
-            infoRow("SELinux 状态", if (status.sepolicyLoaded) "Enforcing" else "Permissive")
-            infoRow("System Server 注入", if (status.systemServerInjected) "已注入" else "未注入")
-            infoRow("系统版本", apiVersion)
-            infoRow("设备型号", device)
-            infoRow("系统架构 (ABI)", Build.SUPPORTED_ABIS.firstOrNull() ?: "arm64-v8a")
+            infoRow(stringResource(R.string.info_api_version), "${status.apiVersion ?: 102}")
+            infoRow(stringResource(R.string.info_framework_version), "${status.versionName ?: "2.2"} (${status.versionCode})")
+            infoRow(stringResource(R.string.info_selinux), if (status.sepolicyLoaded) "Enforcing" else "Permissive")
+            infoRow(
+                stringResource(R.string.info_system_server),
+                stringResource(if (status.systemServerInjected) R.string.info_injected else R.string.info_not_injected),
+            )
+            infoRow(stringResource(R.string.info_android), apiVersion)
+            infoRow(stringResource(R.string.info_device), device)
+            infoRow(stringResource(R.string.info_abi), Build.SUPPORTED_ABIS.firstOrNull() ?: "arm64-v8a")
 
             Spacer(Modifier.height(4.dp))
             TextButton(
@@ -1235,7 +1243,7 @@ private fun LsPatchSupportCard(
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Text(
-                text = "快捷操作与支持",
+                text = stringResource(R.string.home_quick_actions),
                 fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.titleMedium
             )
@@ -1256,7 +1264,7 @@ private fun LsPatchSupportCard(
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(vertical = 6.dp)
                 ) {
-                    Text("系统诊断", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.home_diagnostics), style = MaterialTheme.typography.labelLarge)
                 }
             }
             Spacer(Modifier.height(6.dp))
@@ -1269,14 +1277,18 @@ private fun LsPatchSupportCard(
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(vertical = 6.dp)
                 ) {
-                    Text("软重启", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.action_soft_reboot), style = MaterialTheme.typography.labelLarge)
                 }
                 Button(
                     onClick = onOpenUpdate,
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(vertical = 6.dp)
                 ) {
-                    Text(if (hasUpdate) "有新版本" else "检查更新", style = MaterialTheme.typography.labelLarge)
+                    Text(
+                        if (hasUpdate) stringResource(R.string.home_update_available)
+                        else stringResource(R.string.home_check_update),
+                        style = MaterialTheme.typography.labelLarge,
+                    )
                 }
             }
         }

@@ -462,4 +462,39 @@
     <string name="launcher_prompt_title">У Vector ще немає значка</string>
     <string name="launcher_prompt_body">Vector працює всередині чужого процесу, а не встановлений, тому в лаунчері нічого не з\'являється і очевидного шляху назад немає. Додайте ярлик на головний екран або встановіть Vector як звичайний застосунок.</string>
     <string name="launcher_prompt_never">Більше не питати</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">Налаштування</string>
+    <string name="settings_category_appearance">Оформлення та персоналізація</string>
+    <string name="settings_appearance_summary">Темна тема, колірна схема та фон</string>
+    <string name="settings_language_summary">Змінити мову інтерфейсу</string>
+    <string name="settings_category_core">Ядро та служби</string>
+    <string name="settings_notification_summary">Показувати стан активації та статистику в панелі сповіщень</string>
+    <string name="settings_category_version">Версія та оновлення</string>
+    <string name="settings_check_framework">Перевірити оновлення фреймворку</string>
+    <string name="settings_check_framework_summary">Поточна версія ядра: v%1$s</string>
+    <string name="settings_canary_summary">Запускати нові експериментальні збірки</string>
+    <string name="settings_source_code">Вихідний код проєкту</string>
+    <string name="settings_about">Про Vector-it</string>
+    <string name="settings_about_summary">Версія %1$s (%2$s) · Автор JavSaia</string>
+    <string name="home_copied_info">Відомості про фреймворк і пристрій скопійовано в буфер обміну</string>
+    <string name="home_inactive_hint">Служба ядра неактивна — перевірте модуль Zygisk або перезавантажте пристрій</string>
+    <string name="home_modules_manage">Натисніть, щоб переглянути й керувати модулями</string>
+    <string name="home_quick_actions">Швидкі дії та підтримка</string>
+    <string name="home_diagnostics">Діагностика</string>
+    <string name="home_update_available">Нова версія</string>
+    <string name="home_check_update">Перевірити оновлення</string>
+    <string name="modules_update_available">Доступне оновлення</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d модуль активний</item>
+        <item quantity="few">%1$d модулі активні</item>
+        <item quantity="many">%1$d модулів активні</item>
+        <item quantity="other">%1$d модуля активний</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">Стосується %1$d застосунку</item>
+        <item quantity="few">Стосується %1$d застосунки</item>
+        <item quantity="many">Стосується %1$d застосунків</item>
+        <item quantity="other">Стосується %1$d застосунку</item>
+    </plurals>
 </resources>

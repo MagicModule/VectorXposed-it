@@ -97,4 +97,9 @@
     <string name="logs_clear_confirm">Wyczyść</string>
     <string name="logs_clear_done">Dziennik został wyczyszczony</string>
     <string name="logs_clear_unreachable">Nie udało się wyczyścić dziennika</string>
+
+    <!-- Vector-it additions -->
+    <string name="logs_filter_writers">Aplikacja</string>
+    <string name="logs_filter_none">Nie ma już czego zawęzić</string>
+    <string name="logs_filter_clear_writer">Wyczyść filtr aplikacji</string>
 </resources>

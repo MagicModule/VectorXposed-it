@@ -2,4 +2,7 @@
 <resources>
     <string name="modules_collapse">收起</string>
     <string name="modules_expand">显示完整描述</string>
+
+    <!-- Vector-it additions -->
+    <string name="modules_scope_more">+%1$d</string>
 </resources>

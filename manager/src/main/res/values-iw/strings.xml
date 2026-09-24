@@ -446,4 +446,35 @@
     <string name="launcher_prompt_title">ל-Vector עדיין אין סמל</string>
     <string name="launcher_prompt_body">Vector פועל בתוך תהליך אחר במקום להיות מותקן, ולכן שום דבר לא מופיע במסך הבית ואין דרך ברורה לחזור אליו. תנו לו קיצור דרך במסך הבית, או התקינו אותו כאפליקציה רגילה.</string>
     <string name="launcher_prompt_never">לא לשאול שוב</string>
+
+    <!-- Vector-it additions -->
+    <string name="nav_settings">הגדרות</string>
+    <string name="settings_category_appearance">מראה והתאמה אישית</string>
+    <string name="settings_appearance_summary">מצב כהה, ערכת צבעים והתאמת רקע</string>
+    <string name="settings_language_summary">שנה את שפת התצוגה של האפליקציה</string>
+    <string name="settings_category_core">ליבה ושירותים</string>
+    <string name="settings_notification_summary">הצג את מצב ההפעלה וסטטיסטיקות הפעלה בשורת ההתראות</string>
+    <string name="settings_category_version">גרסה ושדרוגים</string>
+    <string name="settings_check_framework">בדוק עדכוני framework</string>
+    <string name="settings_check_framework_summary">גרסת הליבה הנוכחית: v%1$s</string>
+    <string name="settings_canary_summary">הפעל את גרסאות הניסוי החדשות ביותר</string>
+    <string name="settings_source_code">קוד המקור של הפרויקט</string>
+    <string name="settings_about">אודות Vector-it</string>
+    <string name="settings_about_summary">גרסה %1$s (%2$s) · יוצר JavSaia</string>
+    <string name="home_copied_info">פרטי framework והמכשיר הועתקו ללוח</string>
+    <string name="home_inactive_hint">שירות הליבה אינו פעיל — בדוק את מודול Zygisk או אתחל מחדש</string>
+    <string name="home_modules_manage">הקש כדי להציג ולנהל מודולים</string>
+    <string name="home_quick_actions">פעולות מהירות ותמיכה</string>
+    <string name="home_diagnostics">אבחון</string>
+    <string name="home_update_available">גרסה חדשה</string>
+    <string name="home_check_update">בדוק עדכונים</string>
+    <string name="modules_update_available">זמין עדכון</string>
+    <plurals name="home_modules_active">
+        <item quantity="one">%1$d מודול פעיל</item>
+        <item quantity="other">%1$d מודולים פעילים</item>
+    </plurals>
+    <plurals name="modules_scope_count">
+        <item quantity="one">חל על %1$d אפליקציה</item>
+        <item quantity="other">חל על %1$d אפליקציות</item>
+    </plurals>
 </resources>
