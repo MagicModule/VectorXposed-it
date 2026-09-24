@@ -48,11 +48,24 @@ android {
     buildConfigField("Long", "CLI_TOKEN_LSB", "${cliToken.leastSignificantBits}L")
   }
 
+  val keystore = providers.gradleProperty("androidStoreFile").map { rootProject.file(it) }.orNull
+  val signed = keystore?.exists() == true
+
+  if (signed) {
+    signingConfigs.create("apksign") {
+      storeFile = keystore
+      storePassword = providers.gradleProperty("androidStorePassword").orNull
+      keyAlias = providers.gradleProperty("androidKeyAlias").orNull
+      keyPassword = providers.gradleProperty("androidKeyPassword").orNull
+    }
+  }
+
   buildTypes {
     all { externalNativeBuild { cmake { arguments += "-DANDROID_ALLOW_UNDEFINED_SYMBOLS=true" } } }
     release {
       isMinifyEnabled = true
       proguardFiles("proguard-rules.pro")
+      signingConfig = signingConfigs.getByName(if (signed) "apksign" else "debug")
     }
   }
 

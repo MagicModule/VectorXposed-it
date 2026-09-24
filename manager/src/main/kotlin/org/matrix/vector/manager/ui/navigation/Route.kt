@@ -3,8 +3,10 @@ package org.matrix.vector.manager.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ReceiptLong
 import androidx.compose.material.icons.rounded.CloudDownload
+import androidx.compose.material.icons.rounded.Dashboard
 import androidx.compose.material.icons.rounded.Extension
 import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Settings
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 import org.matrix.vector.manager.R
@@ -42,6 +44,8 @@ sealed interface TopLevelRoute : Route {
     @Serializable data object Store : TopLevelRoute
 
     @Serializable data object Logs : TopLevelRoute
+
+    @Serializable data object Settings : TopLevelRoute
 }
 
 @Serializable data class Scope(val packageName: String, val userId: Int) : Route
@@ -92,20 +96,18 @@ val TOP_LEVEL_DESTINATIONS: List<TopLevelDestination> =
             "modules",
             TopLevelRoute.Modules,
             R.string.nav_modules,
-            Icons.Rounded.Extension,
-        ),
-        // A cloud, not a shopfront. Nothing here is sold, and the tab's real subject is "modules
-        // that live somewhere else and can be brought here".
-        TopLevelDestination(
-            "store",
-            TopLevelRoute.Store,
-            UiR.string.nav_store,
-            Icons.Rounded.CloudDownload,
+            Icons.Rounded.Dashboard,
         ),
         TopLevelDestination(
             "logs",
             TopLevelRoute.Logs,
             R.string.nav_logs,
             Icons.AutoMirrored.Rounded.ReceiptLong,
+        ),
+        TopLevelDestination(
+            "settings",
+            TopLevelRoute.Settings,
+            R.string.nav_settings,
+            Icons.Rounded.Settings,
         ),
     )

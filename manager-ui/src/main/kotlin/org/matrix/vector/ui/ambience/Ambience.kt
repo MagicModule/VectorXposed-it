@@ -22,7 +22,7 @@ enum class AmbienceKind(val key: String) {
     None("none");
 
     companion object {
-        fun from(key: String?): AmbienceKind = entries.firstOrNull { it.key == key } ?: Maze
+        fun from(key: String?): AmbienceKind = entries.firstOrNull { it.key == key } ?: None
     }
 }
 

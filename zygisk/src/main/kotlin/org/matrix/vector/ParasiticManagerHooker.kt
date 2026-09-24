@@ -134,10 +134,17 @@ object ParasiticManagerHooker {
     private fun sendBinderToManager(classLoader: ClassLoader, binder: IBinder) {
         runCatching {
                 val clazz =
-                    XposedHelpers.findClass(
-                        BuildConfig.ManagerPackageName + ".Constants",
-                        classLoader,
-                    )
+                    runCatching {
+                        XposedHelpers.findClass(
+                            BuildConfig.ManagerPackageName + ".Constants",
+                            classLoader,
+                        )
+                    }.getOrElse {
+                        XposedHelpers.findClass(
+                            "org.matrix.vector.manager.Constants",
+                            classLoader,
+                        )
+                    }
                 val ok =
                     XposedHelpers.callStaticMethod(
                         clazz,
@@ -247,7 +254,8 @@ object ParasiticManagerHooker {
                                 getManagerPkgInfo(arg.applicationInfo) ?: return@forEachIndexed
                             pkgInfo.activities
                                 ?.find {
-                                    it.name == BuildConfig.ManagerPackageName + ".ui.MainActivity"
+                                    it.name == BuildConfig.ManagerPackageName + ".ui.MainActivity" ||
+                                        it.name == "org.matrix.vector.manager.ui.MainActivity"
                                 }
                                 ?.let {
                                     it.applicationInfo = pkgInfo.applicationInfo
@@ -255,10 +263,16 @@ object ParasiticManagerHooker {
                                 }
                         }
                         if (arg is Intent) {
+                            val pkgInfo = getManagerPkgInfo(null)
+                            val targetActivity =
+                                pkgInfo?.activities?.find {
+                                    it.name == BuildConfig.ManagerPackageName + ".ui.MainActivity" ||
+                                        it.name == "org.matrix.vector.manager.ui.MainActivity"
+                                }?.name ?: (BuildConfig.ManagerPackageName + ".ui.MainActivity")
                             arg.component =
                                 ComponentName(
                                     arg.component!!.packageName,
-                                    BuildConfig.ManagerPackageName + ".ui.MainActivity",
+                                    targetActivity,
                                 )
                         }
                     }
@@ -499,7 +513,8 @@ object ParasiticManagerHooker {
                                         param.thisObject,
                                         "mApplicationInfo",
                                     ) as ApplicationInfo
-                                if (mAppInfo.packageName == BuildConfig.ManagerPackageName) {
+                                if (mAppInfo.packageName == BuildConfig.ManagerPackageName ||
+                                    mAppInfo.packageName == "org.matrix.vector.manager") {
                                     val classLoader = param.result as ClassLoader
                                     sendBinderToManager(classLoader, managerService.asBinder())
                                 }

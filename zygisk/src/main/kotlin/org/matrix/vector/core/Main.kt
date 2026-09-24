@@ -48,7 +48,7 @@ object Main {
             .onFailure { t -> Utils.logE("Failed to configure logs from service", t) }
 
         // Check if this process is the designated Vector Manager.
-        if (niceName == BuildConfig.ManagerPackageName) {
+        if (niceName == BuildConfig.ManagerPackageName || niceName == "org.matrix.vector.manager") {
             ParasiticManagerHooker.isParasitic = Process.myUid() == BuildConfig.HostPackageUid
             val type = if (ParasiticManagerHooker.isParasitic) "parasitic" else "user-installed"
             if (ParasiticManagerHooker.start()) {

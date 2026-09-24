@@ -24,7 +24,7 @@ import org.matrix.vector.ui.LocalDialogLocalizer
  * `system_server` does not know these spoofed activities exist. A single activity is what the
  * injection model wants, not a style preference.
  */
-class MainActivity : ComponentActivity() {
+open class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Must precede super.onCreate. Handing off from the platform splash is what keeps an

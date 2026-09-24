@@ -34,12 +34,13 @@ android {
 
     sourceSets {
         named("main") {
-            java.directories.addAll(listOf("src/main/kotlin", "libxposed/api/src/main/java"))
+            java.directories.addAll(listOf("src/main/kotlin"))
         }
     }
 }
 
 dependencies {
+    api(libs.libxposed.api)
     implementation(projects.external.axml)
     implementation(projects.hiddenapi.bridge)
     implementation(projects.services.daemonService)

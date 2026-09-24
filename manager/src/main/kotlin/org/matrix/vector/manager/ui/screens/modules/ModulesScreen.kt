@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -51,6 +52,8 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -96,6 +99,9 @@ import androidx.compose.material.icons.rounded.ArrowCircleUp
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Switch
+import org.matrix.vector.manager.ui.components.CenterTopBar
+import org.matrix.vector.manager.ui.components.LspAppItem
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetValue
@@ -119,7 +125,6 @@ import org.matrix.vector.ui.SnackbarTone
 import org.matrix.vector.ui.SharedSnackbarHost
 import org.matrix.vector.ui.show
 import org.matrix.vector.manager.ui.components.PackageActionResult
-import org.matrix.vector.ui.PanelHeader
 import org.matrix.vector.ui.SearchField
 import org.matrix.vector.ui.theme.Mono
 import androidx.compose.material3.Surface
@@ -267,21 +272,71 @@ fun ModulesScreen(
             }
         }
 
-    Scaffold(snackbarHost = { SharedSnackbarHost(snackbars) }) { innerPadding ->
+    Scaffold(
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        topBar = {
+            if (selection.isNotEmpty()) {
+                SelectionBar(
+                    count = selection.size,
+                    onClose = viewModel::clearSelection,
+                    onEnable = {
+                        viewModel.setSelectedEnabled(true) { outcome ->
+                            reportBatch(
+                                batchResult(
+                                    R.plurals.modules_batch_enabled,
+                                    R.plurals.modules_batch_already_on,
+                                    R.plurals.modules_batch_all_already_on,
+                                    outcome,
+                                )
+                            )
+                        }
+                    },
+                    onDisable = {
+                        viewModel.setSelectedEnabled(false) { outcome ->
+                            reportBatch(
+                                batchResult(
+                                    R.plurals.modules_batch_disabled,
+                                    R.plurals.modules_batch_already_off,
+                                    R.plurals.modules_batch_all_already_off,
+                                    outcome,
+                                )
+                            )
+                        }
+                    },
+                    onBackup = { selectionBackupLauncher.launch("vector-modules.bak") },
+                    onUninstall = { confirmUninstall = true },
+                )
+            } else {
+                CenterTopBar(
+                    title = stringResource(R.string.nav_modules),
+                    actions = {
+                        IconButton(onClick = { restoreLauncher.launch(arrayOf("*/*")) }) {
+                            Icon(
+                                Icons.Rounded.SettingsBackupRestore,
+                                contentDescription = stringResource(R.string.modules_restore),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        IconButton(onClick = { backupLauncher.launch("vector-modules.bak") }) {
+                            Icon(
+                                Icons.Rounded.SaveAlt,
+                                contentDescription = stringResource(R.string.modules_backup),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                )
+            }
+        },
+        snackbarHost = { SharedSnackbarHost(snackbars) },
+    ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            // Hoisted above the header: the count in it is the *visible* profile's, so the header
-            // has to know which page is showing. Aggregating across profiles made "4 of 6 active"
-            // describe a set the user was not looking at.
             val pagerState = rememberPagerState(pageCount = { tabs.size })
             val visible = tabs.getOrNull(pagerState.currentPage)
-            // The sheet lives outside the pager, so it needs the current page's answer handed to
-            // it rather than reading the whole device's.
             val present = visible?.modules?.map { it.packageName }?.toSet().orEmpty()
             val visibleUpgradable = upgradable intersect present
             val visibleMutedUpgradable = mutedUpgradable intersect present
 
-            // Inside the Column so the per-profile sets are in scope; a modal sheet draws in its
-            // own window, so where it sits in the tree costs nothing.
             if (showUpdates) {
                 ModuleUpdatesSheet(
                     entries = storeEntries,
@@ -293,53 +348,24 @@ fun ModulesScreen(
                 )
             }
 
-            // The selection bar takes the title and description rows and nothing else, so the
-            // search field below stays exactly where the thumb left it and the list does not jump
-            // the moment a module is picked up. Filling the whole header would leave one row of
-            // controls floating in a band of colour half the height of the header.
-            ModulesHeader(
-                active = visible?.modules?.count { it.isEnabled } ?: counts.first,
-                total = visible?.modules?.size ?: counts.second,
-                onBackup = { backupLauncher.launch("vector-modules.bak") },
-                onRestore = { restoreLauncher.launch(arrayOf("*/*")) },
-                titleOverlay =
-                    if (selection.isEmpty()) null
-                    else {
-                        {
-                            SelectionBar(
-                                count = selection.size,
-                                onClose = viewModel::clearSelection,
-                                onEnable = {
-                                    viewModel.setSelectedEnabled(true) { outcome ->
-                                        reportBatch(
-                                            batchResult(
-                                                R.plurals.modules_batch_enabled,
-                                                R.plurals.modules_batch_already_on,
-                                                R.plurals.modules_batch_all_already_on,
-                                                outcome,
-                                            )
-                                        )
-                                    }
-                                },
-                                onDisable = {
-                                    viewModel.setSelectedEnabled(false) { outcome ->
-                                        reportBatch(
-                                            batchResult(
-                                                R.plurals.modules_batch_disabled,
-                                                R.plurals.modules_batch_already_off,
-                                                R.plurals.modules_batch_all_already_off,
-                                                outcome,
-                                            )
-                                        )
-                                    }
-                                },
-                                onBackup = { selectionBackupLauncher.launch("vector-modules.bak") },
-                                onUninstall = { confirmUninstall = true },
-                            )
-                        }
-                    },
-                search = { ModulesSearch(query, viewModel, filter, sort) },
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp, vertical = 4.dp)
+            ) {
+                ModulesSearch(query, viewModel, filter, sort)
+            }
+
+            val activeCount = visible?.modules?.count { it.isEnabled } ?: counts.first
+            val totalCount = visible?.modules?.size ?: counts.second
+            if (totalCount > 0) {
+                Text(
+                    text = stringResource(R.string.modules_active_of, activeCount, totalCount),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 2.dp)
+                )
+            }
 
             // No blocking spinner: the pull-to-refresh indicator already reports the reload, and
             // a full-screen spinner on every route in made the list flash.
@@ -389,7 +415,8 @@ fun ModulesScreen(
 
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(top = 4.dp, bottom = 20.dp),
+                    contentPadding = PaddingValues(top = 2.dp, bottom = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     item(key = "updates") {
                         UpdateLine(
@@ -411,7 +438,7 @@ fun ModulesScreen(
                             stickyHeader(key = "h:active") {
                                 SectionHeader(stringResource(R.string.modules_section_active), active.size)
                             }
-                            moduleRows(active, facts, selection, upgradable, onModuleClick, onOpenStore, viewModel::toggleSelected, ::report)
+                            moduleRows(active, facts, selection, upgradable, onModuleClick, onOpenStore, viewModel::toggleSelected, viewModel::setModuleEnabled, ::report)
                         }
                         if (inactive.isNotEmpty()) {
                             stickyHeader(key = "h:inactive") {
@@ -420,10 +447,10 @@ fun ModulesScreen(
                                     inactive.size,
                                 )
                             }
-                            moduleRows(inactive, facts, selection, upgradable, onModuleClick, onOpenStore, viewModel::toggleSelected, ::report)
+                            moduleRows(inactive, facts, selection, upgradable, onModuleClick, onOpenStore, viewModel::toggleSelected, viewModel::setModuleEnabled, ::report)
                         }
                     } else {
-                        moduleRows(modules, facts, selection, upgradable, onModuleClick, onOpenStore, viewModel::toggleSelected, ::report)
+                        moduleRows(modules, facts, selection, upgradable, onModuleClick, onOpenStore, viewModel::toggleSelected, viewModel::setModuleEnabled, ::report)
                     }
                 }
               }
@@ -642,56 +669,7 @@ LocalizedOverlay {
     }
 }
 
-@Composable
-private fun ModulesHeader(
-    active: Int,
-    total: Int,
-    onBackup: () -> Unit,
-    onRestore: () -> Unit,
-    modifier: Modifier = Modifier,
-    titleOverlay: (@Composable () -> Unit)? = null,
-    search: @Composable () -> Unit,
-) {
-    PanelHeader(
-        title = stringResource(R.string.nav_modules),
-        modifier = modifier,
-        titleOverlay = titleOverlay,
-        actions = {
-            // Both shown rather than hidden behind an overflow. There are exactly two, they are
-            // opposites, and a menu holding two items costs a tap to say what a glance could.
-            //
-            // Deliberately *not* a mirrored pair: at 24dp two mirror images of the same shape read
-            // as one shape, and telling them apart means stopping to work out which way the arrow
-            // points. Two different pictures instead — a tray to save into, and the platform's own
-            // restore glyph — each naming the outcome rather than the mechanism. Nothing here
-            // uploads anywhere either; the file goes wherever the document picker is pointed.
-            IconButton(onClick = onRestore) {
-                Icon(
-                    Icons.Rounded.SettingsBackupRestore,
-                    contentDescription = stringResource(R.string.modules_restore),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            IconButton(onClick = onBackup) {
-                Icon(
-                    Icons.Rounded.SaveAlt,
-                    contentDescription = stringResource(R.string.modules_backup),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        },
-        description = {
-            if (total > 0) {
-                Text(
-                    text = stringResource(R.string.modules_active_of, active, total),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        },
-        search = search,
-    )
-}
+
 
 /**
  * A module, as a row.
@@ -784,45 +762,54 @@ private fun ModuleRow(
     // than becoming part of a number; an empty, framework-less scope passes nothing and the row
     // reserves no band.
     val scopePreview = facts?.scopePreview.orEmpty()
-    SharedModuleRow(
-        icon = {
-            AppIcon(
-                applicationInfo = module.applicationInfo,
-                contentDescription = null,
-                size = ICON_SIZE,
-            )
-        },
-        name = module.appName,
-        versionName = module.versionName,
-        description = module.description,
-        apiBadge = { ApiBadge(module = module, incompatible = incompatible) },
-        nameColor = nameColor,
-        hasUpdate = hasUpdate,
-        onVersionClick = if (hasUpdate) onOpenStore else null,
-        dimmed = !module.isEnabled && !incompatible,
-        selected = selected,
-        onIconClick = onIconClick,
-        onIconLongClick = onLongClick,
-        onClick = onClick,
-        onLongClick = onLongClick,
-        note = note,
-        reachLeading =
-            if (facts?.scopeFramework == true) {
-                {
-                    Icon(
-                        Icons.Rounded.Android,
-                        contentDescription = stringResource(R.string.modules_scope_framework),
-                        tint = colors.primary,
-                        modifier = Modifier.size(REACH_ICON_SIZE),
-                    )
-                }
-            } else null,
-        reachIcons =
-            scopePreview.map { info ->
-                { AppIcon(applicationInfo = info, contentDescription = null, size = REACH_ICON_SIZE) }
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = if (selected) colors.secondaryContainer else colors.surfaceContainerLow
+        ),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp),
+    ) {
+        SharedModuleRow(
+            icon = {
+                AppIcon(
+                    applicationInfo = module.applicationInfo,
+                    contentDescription = null,
+                    size = ICON_SIZE,
+                )
             },
-        reachCount = (facts?.scopeCount ?: 0).coerceAtLeast(0),
-    )
+            name = module.appName,
+            versionName = module.versionName,
+            description = module.description,
+            apiBadge = { ApiBadge(module = module, incompatible = incompatible) },
+            nameColor = nameColor,
+            hasUpdate = hasUpdate,
+            onVersionClick = if (hasUpdate) onOpenStore else null,
+            dimmed = !module.isEnabled && !incompatible,
+            selected = selected,
+            onIconClick = onIconClick,
+            onIconLongClick = onLongClick,
+            onClick = onClick,
+            onLongClick = onLongClick,
+            note = note,
+            reachLeading =
+                if (facts?.scopeFramework == true) {
+                    {
+                        Icon(
+                            Icons.Rounded.Android,
+                            contentDescription = stringResource(R.string.modules_scope_framework),
+                            tint = colors.primary,
+                            modifier = Modifier.size(REACH_ICON_SIZE),
+                        )
+                    }
+                } else null,
+            reachIcons =
+                scopePreview.map { info ->
+                    { AppIcon(applicationInfo = info, contentDescription = null, size = REACH_ICON_SIZE) }
+                },
+            reachCount = (facts?.scopeCount ?: 0).coerceAtLeast(0),
+        )
+    }
 }
 
 /**
@@ -907,6 +894,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.moduleRows(
     onModuleClick: (String, Int) -> Unit,
     onOpenStore: (String) -> Unit,
     onSelect: (InstalledModule) -> Unit,
+    onToggleEnabled: (String, Boolean) -> Unit,
     onAction: (PackageActionResult) -> Unit,
 ) {
     items(modules, key = { "${it.packageName}:${it.userId}" }) { module ->
@@ -919,26 +907,15 @@ private fun androidx.compose.foundation.lazy.LazyListScope.moduleRows(
             onClick = { onModuleClick(module.packageName, module.userId) },
             onOpenStore = { onOpenStore(module.packageName) },
             onSelect = { onSelect(module) },
+            onToggleEnabled = { enabled -> onToggleEnabled(module.packageName, enabled) },
             onAction = onAction,
-        )
-        // Inset from both ends. A full-bleed rule cuts the list into slabs; a short one reads as
-        // a breath between rows, which is all it is for.
-        HorizontalDivider(
-            modifier = Modifier.padding(start = 108.dp, end = 32.dp),
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
         )
     }
 }
 
 /**
- * A module row, with the sheet its long press opens.
- *
- * There is deliberately no swipe-to-toggle: a horizontal drag on a row inside a vertically
- * scrolling list competes with the scroll for every gesture that is not perfectly straight.
- *
- * **The icon is the selection handle.** Tapping it picks the module up; from there the same tap on
- * any other icon adds to the set and the bar at the top acts on all of them at once, which is what
- * makes enabling, removing or backing up eight modules one act rather than eight.
+ * Standard LSPatch-style module list item with card container, icon, monospace package name,
+ * and direct toggle switch.
  */
 @Composable
 private fun ModuleListItem(
@@ -950,29 +927,115 @@ private fun ModuleListItem(
     onClick: () -> Unit,
     onOpenStore: () -> Unit,
     onSelect: () -> Unit,
+    onToggleEnabled: (Boolean) -> Unit,
     onAction: (PackageActionResult) -> Unit,
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val haptics = LocalHapticFeedback.current
+    val colors = MaterialTheme.colorScheme
+    val incompatible = facts?.incompatible == true
 
-    ModuleRow(
-        module = module,
-        facts = facts,
-        hasUpdate = hasUpdate,
-        selected = selected,
-        onOpenStore = onOpenStore,
-        // Once anything is selected the whole row joins the selection, because that is what every
-        // other list on the platform does and aiming at a 48dp icon to add the ninth module would
-        // be its own small ordeal.
-        onClick = if (selectionActive) onSelect else onClick,
-        onIconClick = {
-            haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
-            onSelect()
+    LspAppItem(
+        modifier = Modifier.padding(horizontal = 14.dp, vertical = 1.dp),
+        icon = {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clickable {
+                        haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                        onSelect()
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                AppIcon(
+                    applicationInfo = module.applicationInfo,
+                    contentDescription = null,
+                    size = 44.dp,
+                )
+                if (selected) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
+                            .background(colors.primary.copy(alpha = 0.85f)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            Icons.Rounded.Check,
+                            contentDescription = null,
+                            tint = colors.onPrimary,
+                            modifier = Modifier.size(26.dp),
+                        )
+                    }
+                }
+            }
         },
+        title = module.appName,
+        packageName = module.packageName,
+        onClick = if (selectionActive) onSelect else onClick,
         onLongClick = {
             haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
             menuOpen = true
         },
+        additionalContent = {
+            Spacer(Modifier.height(2.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "v${module.versionName}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                ApiBadge(module = module, incompatible = incompatible)
+                if (hasUpdate) {
+                    Text(
+                        text = "有更新",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable { onOpenStore() }
+                    )
+                }
+            }
+            if (incompatible) {
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = stringResource(
+                        if (module.isLegacy) R.string.modules_incompatible_legacy
+                        else R.string.modules_incompatible,
+                        module.minVersion,
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colors.error,
+                )
+            } else if (facts?.scopeCount != null && facts.scopeCount > 0) {
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = "作用于 ${facts.scopeCount} 个应用",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+                )
+            }
+        },
+        rightContent = {
+            if (selectionActive) {
+                Checkbox(
+                    checked = selected,
+                    onCheckedChange = { onSelect() }
+                )
+            } else {
+                Switch(
+                    checked = module.isEnabled,
+                    onCheckedChange = { enabled ->
+                        haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                        onToggleEnabled(enabled)
+                    },
+                    enabled = !incompatible
+                )
+            }
+        }
     )
 
     if (menuOpen) {

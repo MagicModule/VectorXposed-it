@@ -117,7 +117,8 @@ object ManagerService : IManagerService.Stub() {
 
   @Synchronized
   fun tryRegisterManagerProcess(pid: Int, uid: Int, processName: String): Boolean {
-    if (ConfigCache.isManager(uid) && processName == BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME) {
+    if (ConfigCache.isManager(uid) &&
+        (processName == BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME || processName == "org.matrix.vector.manager")) {
       if (pendingManager) {
         Log.v(TAG, "Parasitic manager registered.")
         pendingManager = false
@@ -552,5 +553,26 @@ object ManagerService : IManagerService.Stub() {
           name = "vector-framework-install"
           start()
         }
+  }
+
+  override fun execPrivilegedCommand(command: String): String {
+    return runCatching {
+      val process = Runtime.getRuntime().exec(arrayOf("sh", "-c", command))
+      val reader = process.inputStream.bufferedReader()
+      val output = reader.readText()
+      process.waitFor(10, java.util.concurrent.TimeUnit.SECONDS)
+      output
+    }.getOrElse { it.message ?: "Failed to execute privileged command" }
+  }
+
+  override fun getSystemProperty(key: String, defValue: String): String {
+    return SystemProperties.get(key, defValue)
+  }
+
+  override fun setSystemProperty(key: String, value: String): Boolean {
+    return runCatching {
+      SystemProperties.set(key, value)
+      true
+    }.getOrDefault(false)
   }
 }

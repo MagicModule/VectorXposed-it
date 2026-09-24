@@ -305,6 +305,15 @@ class FakeManagerService(
 
     override fun setIncludeNewApps(packageName: String?, enable: Boolean): Boolean =
         real?.setIncludeNewApps(packageName, enable) ?: false
+
+    override fun execPrivilegedCommand(cmd: String?): String =
+        real?.execPrivilegedCommand(cmd) ?: "fake-output: $cmd"
+
+    override fun getSystemProperty(key: String?, def: String?): String =
+        real?.getSystemProperty(key, def) ?: (def ?: "")
+
+    override fun setSystemProperty(key: String?, value: String?): Boolean =
+        real?.setSystemProperty(key, value) ?: true
 }
 
 /**

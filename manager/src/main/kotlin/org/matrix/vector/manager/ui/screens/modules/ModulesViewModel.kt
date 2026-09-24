@@ -338,6 +338,13 @@ class ModulesViewModel(
         }
     }
 
+    /** Enables or disables a single module immediately. */
+    fun setModuleEnabled(packageName: String, enable: Boolean) {
+        viewModelScope.launch {
+            moduleRepository.toggleModule(packageName, enable)
+        }
+    }
+
     /**
      * What a batch actually did.
      *

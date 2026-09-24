@@ -155,6 +155,12 @@ void RegisterNativeLib(const std::string &library_name) {
     LOGD("Native module library '{}' has been registered.", library_name.c_str());
 }
 
+bool IsNativeLibRegistered(const std::string &library_name) {
+    std::lock_guard<std::mutex> lock(g_module_registry_mutex);
+    return std::find(g_module_native_libs.begin(), g_module_native_libs.end(), library_name) !=
+           g_module_native_libs.end();
+}
+
 bool HasEnding(std::string_view fullString, std::string_view ending) {
     if (fullString.length() >= ending.length()) {
         return (fullString.compare(fullString.length() - ending.length(), std::string_view::npos,

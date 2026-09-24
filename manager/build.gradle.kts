@@ -54,7 +54,7 @@ val injectedPackageName = rootProject.extra["injectedPackageName"] as String
 val versionHashProvider = rootProject.extra["versionHashProvider"] as Provider<String>
 
 android {
-    namespace = defaultManagerPackageName
+    namespace = "org.matrix.vector.manager"
 
     buildFeatures {
         compose = true

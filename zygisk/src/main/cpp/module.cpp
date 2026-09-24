@@ -240,7 +240,8 @@ void VectorModule::preAppSpecialize(zygisk::AppSpecializeArgs *args) {
     // grant it internet permissions by adding it to the INET group.
     if (args->uid == kHostPackageUid) {
         lsplant::JUTFString nice_name_str(env_, args->nice_name);
-        if (nice_name_str.get() == std::string(kManagerPackageName)) {
+        if (nice_name_str.get() == std::string(kManagerPackageName) ||
+            nice_name_str.get() == std::string("org.matrix.vector.manager")) {
             LOGI("Manager app detected. Granting internet permissions.");
             is_manager_app_ = true;
 

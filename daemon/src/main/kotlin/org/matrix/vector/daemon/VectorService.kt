@@ -385,7 +385,7 @@ object VectorService : IVectorDaemon.Stub() {
     // Special handling if the app being changed is the Vector Manager itself.
     val isRemovedAction =
         action == Intent.ACTION_PACKAGE_FULLY_REMOVED || action == Intent.ACTION_UID_REMOVED
-    if (moduleName == BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME && userId == 0) {
+    if ((moduleName == BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME || moduleName == "org.matrix.vector.manager") && userId == 0) {
       Log.d(TAG, "Manager updated")
       ConfigCache.updateManager(isRemovedAction)
     }

@@ -32,4 +32,5 @@ include(
     ":services:daemon-service",
     ":xposed",
     ":zygisk",
+    ":demo:it-module",
 )

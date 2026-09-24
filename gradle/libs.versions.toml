@@ -72,6 +72,9 @@ gson = { module = "com.google.code.gson:gson", version = "2.14.0" }
 # @SinceApi and @InternalApi from API 102 onwards. Both are CLASS-retained metadata with no
 # runtime behaviour, so this is compileOnly everywhere and never reaches a device.
 libxposed-annotation = { module = "io.github.libxposed:annotation", version = "1.0.0" }
+libxposed-api = { module = "io.github.libxposed:api", version = "102.0.0" }
+libxposed-service = { module = "io.github.libxposed:service", version = "102.0.0" }
+libxposed-itf = { module = "io.github.libxposed:interface", version = "102.0.0" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 picocli = { module = "info.picocli:picocli", version = "4.7.7" }

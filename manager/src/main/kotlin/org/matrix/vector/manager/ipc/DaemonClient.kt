@@ -52,7 +52,18 @@ class DaemonClient(private val serviceState: StateFlow<IManagerService?>) {
 
     suspend fun getLibxposedApiVersion(): Result<Int> = runIpc { it.libxposedApiVersion }
 
-    suspend fun getEnabledModules(): Result<List<String>> = runIpc { it.enabledModules
+    suspend fun getEnabledModules(): Result<List<String>> = runIpc { it.enabledModules }
+
+    suspend fun execPrivilegedCommand(command: String): Result<String> = runIpc {
+        it.execPrivilegedCommand(command)
+    }
+
+    suspend fun getSystemProperty(key: String, defValue: String = ""): Result<String> = runIpc {
+        it.getSystemProperty(key, defValue)
+    }
+
+    suspend fun setSystemProperty(key: String, value: String): Result<Boolean> = runIpc {
+        it.setSystemProperty(key, value)
     }
 
     /**

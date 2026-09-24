@@ -924,7 +924,7 @@ class GitHubRepository(
             .getOrDefault(0L)
 
     companion object {
-        const val OWNER = "JingMatrix"
+        const val OWNER = "JavSaia"
         const val REPO = "$OWNER/Vector"
         const val REPO_URL = "https://github.com/$REPO"
         const val ISSUES_URL = "$REPO_URL/issues"

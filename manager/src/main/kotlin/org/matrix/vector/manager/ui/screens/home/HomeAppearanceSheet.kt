@@ -24,17 +24,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.BrightnessAuto
-import androidx.compose.material.icons.rounded.BubbleChart
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.DarkMode
-import androidx.compose.material.icons.rounded.Dashboard
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.OpenInBrowser
 import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.icons.rounded.Reorder
-import androidx.compose.material.icons.rounded.Waves
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -66,17 +62,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.matrix.vector.manager.ui.theme.LocalizedOverlay
 import org.matrix.vector.manager.R
 import org.matrix.vector.ui.ChoiceRow
-import org.matrix.vector.ui.SheetAction
 import org.matrix.vector.ui.SheetHeading
 import org.matrix.vector.ui.ToggleRow
 import org.matrix.vector.ui.net.DohSettingSection
 import org.matrix.vector.manager.di.ServiceLocator
 import org.matrix.vector.ui.ColorWheel
-import org.matrix.vector.ui.ambience.AmbienceKind
-import org.matrix.vector.ui.navigation.LocalNavigator
 import org.matrix.vector.ui.theme.SeedScheme
 import org.matrix.vector.ui.theme.ThemeMode
-import org.matrix.vector.ui.R as UiR
 
 /**
  * How this screen looks, edited from this screen.
@@ -105,15 +97,10 @@ import org.matrix.vector.ui.R as UiR
 fun HomeAppearanceSheet(onDismiss: () -> Unit) {
     val settings = ServiceLocator.settings
     // Read out here rather than inside the sheet. A ModalBottomSheet is a subcomposition, so the
-    // locals VectorApp provides do reach into it, but the navigator is wanted for one callback and
-    // nothing about it changes between here and there.
-    val navigator = LocalNavigator.current
     val themeMode by settings.themeMode.collectAsStateWithLifecycle()
     val dynamicColor by settings.dynamicColor.collectAsStateWithLifecycle()
     val amoled by settings.amoledBlack.collectAsStateWithLifecycle()
     val seed by settings.seedColor.collectAsStateWithLifecycle()
-    val ambience by settings.headerAmbience.collectAsStateWithLifecycle()
-    val floating by settings.floatingNav.collectAsStateWithLifecycle()
     val contributorOrder by settings.contributorOrder.collectAsStateWithLifecycle()
     val resolvedDark =
         when (ThemeMode.from(themeMode)) {
@@ -166,19 +153,6 @@ LocalizedOverlay {
 
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
 
-            SheetHeading(stringResource(R.string.settings_ambience), Icons.Rounded.Waves)
-            ChoiceRow {
-                AmbienceKind.entries.forEach { kind ->
-                    FilterChip(
-                        selected = AmbienceKind.from(ambience) == kind,
-                        onClick = { settings.setHeaderAmbience(kind.key) },
-                        label = { Text(stringResource(kind.labelRes())) },
-                    )
-                }
-            }
-
-            HorizontalDivider(Modifier.padding(vertical = 8.dp))
-
             SheetHeading(stringResource(R.string.settings_activity), Icons.Rounded.History)
             ChoiceRow {
                 // Zero is "as far back as there is", last because it is the widest.
@@ -211,33 +185,6 @@ LocalizedOverlay {
                     )
                 }
             }
-            HorizontalDivider(Modifier.padding(vertical = 8.dp))
-
-            SheetHeading(stringResource(R.string.settings_navigation), Icons.Rounded.Dashboard)
-            ToggleRow(
-                title = stringResource(R.string.settings_floating_nav),
-                icon = Icons.Rounded.BubbleChart,
-                subtitle = stringResource(R.string.settings_floating_nav_summary),
-                checked = floating,
-                onCheckedChange = settings::setFloatingNav,
-            )
-            SheetAction(
-                title = stringResource(UiR.string.settings_rearrange_panels),
-                icon = Icons.Rounded.Reorder,
-                onClick = {
-                    // Edit mode and the dismissal in the one click, and deliberately without
-                    // animating the sheet out first: hiding it through its own sheetState would
-                    // leave this dialog's window, scrim and all, over the container for the length
-                    // of the animation, and the first thing anyone does in edit mode is drag an
-                    // item. Dropping the sheet out of composition takes its window with it in the
-                    // same frame the container enters edit mode, so the first touch that lands
-                    // lands on a panel.
-                    navigator.editingPanels = true
-                    onDismiss()
-                },
-                subtitle = stringResource(UiR.string.settings_rearrange_panels_summary),
-            )
-
             HorizontalDivider(Modifier.padding(vertical = 8.dp))
 
             // Here rather than under the Store's filters, where it used to sit. It was never a
@@ -507,15 +454,4 @@ private fun ThemeMode.labelRes(): Int =
         ThemeMode.System -> R.string.appearance_theme_system
         ThemeMode.Light -> R.string.appearance_theme_light
         ThemeMode.Dark -> R.string.appearance_theme_dark
-    }
-
-// The ambience kind now lives in the shared UI library and carries only a key; its localized name is
-// this app's concern, mapped here.
-private fun AmbienceKind.labelRes(): Int =
-    when (this) {
-        AmbienceKind.Snow -> R.string.ambience_snow
-        AmbienceKind.Maze -> R.string.ambience_maze
-        AmbienceKind.Circuit -> R.string.ambience_circuit
-        AmbienceKind.Matrix -> R.string.ambience_matrix
-        AmbienceKind.None -> R.string.ambience_none
     }

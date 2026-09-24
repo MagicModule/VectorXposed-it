@@ -1,8 +1,26 @@
 package org.matrix.vector.manager.ui.screens.home
 
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.Translate
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.ContentCopy
+import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,8 +32,11 @@ import org.matrix.vector.ui.contextClickable
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
+import androidx.compose.material.icons.rounded.Extension
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -77,6 +98,16 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowDown
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -111,12 +142,9 @@ import org.matrix.vector.manager.ui.components.GapRow
 import org.matrix.vector.manager.ui.components.HistoryFootRow
 import org.matrix.vector.manager.ui.components.ContributorAvatar
 import org.matrix.vector.manager.ui.components.TakePartSection
-import org.matrix.vector.ui.UpdatableVersion
-import org.matrix.vector.manager.ui.components.VectorAmbienceSettings
 import org.matrix.vector.manager.ui.components.statusWordRes
-import org.matrix.vector.manager.ui.components.toTone
-import org.matrix.vector.ui.StatusHeader
-import org.matrix.vector.ui.ambience.AmbienceKind
+import org.matrix.vector.ui.UpdatableVersion
+import org.matrix.vector.manager.ui.components.FrameworkState
 import org.matrix.vector.manager.ui.screens.splash.WingedVictory
 import org.matrix.vector.ui.RepoStatsRow
 import org.matrix.vector.ui.theme.Mono
@@ -140,9 +168,12 @@ fun HomeScreen(
     onOpenCanary: () -> Unit,
     onOpenReport: () -> Unit,
     onOpenUpdate: () -> Unit,
+    onOpenModules: () -> Unit = {},
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
 ) {
     val status by viewModel.status.collectAsStateWithLifecycle()
+    val enabledModules by ServiceLocator.modules.enabledModulesState.collectAsStateWithLifecycle()
+    val enabledModulesCount = enabledModules.size
     val feed by viewModel.feed.collectAsStateWithLifecycle()
     val refreshing by viewModel.refreshing.collectAsStateWithLifecycle()
     val openExternally by viewModel.openLinksExternally.collectAsStateWithLifecycle()
@@ -152,7 +183,6 @@ fun HomeScreen(
     val authorFilter by viewModel.authorFilter.collectAsStateWithLifecycle()
     val windowChanged by viewModel.windowChanged.collectAsStateWithLifecycle()
     val frameworkUpdate by viewModel.frameworkUpdate.collectAsStateWithLifecycle()
-    val ambienceKey by viewModel.headerAmbience.collectAsStateWithLifecycle()
     val presence by viewModel.presence.collectAsStateWithLifecycle()
     val promptDismissed by viewModel.launcherPromptDismissed.collectAsStateWithLifecycle()
     val hintStatus by viewModel.statusBadgeHint.collectAsStateWithLifecycle()
@@ -223,153 +253,142 @@ fun HomeScreen(
     }
 
     Scaffold(
-        // The header draws its own status-bar inset so it can run under the bar; letting the
-        // Scaffold consume it here would leave a band of plain background above the pane. The
-        // bottom is the Scaffold's to reserve, though: with the panels floating there is no
-        // navigation container underneath to have taken it, and the last row of the feed would end
-        // up behind three-button navigation. Already-consumed insets are excluded from this, so it
-        // still adds nothing in the arrangements where a container is there.
-        contentWindowInsets = ScaffoldDefaults.contentWindowInsets.only(WindowInsetsSides.Bottom),
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Monospace,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                },
+                actions = {
+                    var showMenu by remember { mutableStateOf(false) }
+                    IconButton(onClick = onOpenStatus) {
+                        Icon(
+                            Icons.Rounded.Info,
+                            contentDescription = stringResource(R.string.status_open_details),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Box {
+                        IconButton(onClick = { showMenu = true }) {
+                            Icon(
+                                Icons.Rounded.MoreVert,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = showMenu,
+                            onDismissRequest = { showMenu = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.appearance_title)) },
+                                onClick = {
+                                    showMenu = false
+                                    showAppearance = true
+                                },
+                                leadingIcon = {
+                                    Icon(Icons.Rounded.Palette, contentDescription = null)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.language_title)) },
+                                onClick = {
+                                    showMenu = false
+                                    showLanguage = true
+                                },
+                                leadingIcon = {
+                                    Icon(Icons.Rounded.Translate, contentDescription = null)
+                                }
+                            )
+                        }
+                    }
+                }
+            )
+        },
         snackbarHost = { SharedSnackbarHost(snackbars) },
     ) { padding ->
         val listState = rememberLazyListState()
-        var headerHeightPx by remember { mutableIntStateOf(0) }
-        val density = LocalDensity.current
-
-        // How far the feed has climbed into the header, 0 to 1. The header is not a list item —
-        // it is pinned behind one — so this is derived from the scroll position rather than from
-        // the header's own layout, which never moves.
-        val collapse by remember {
-            derivedStateOf {
-                when {
-                    headerHeightPx == 0 -> 0f
-                    listState.firstVisibleItemIndex > 0 -> 1f
-                    else ->
-                        (listState.firstVisibleItemScrollOffset / headerHeightPx.toFloat())
-                            .coerceIn(0f, 1f)
-                }
-            }
-        }
-
-        // Changing the filter changes the whole rail underneath the reader, and a long press on a
-        // name three hundred commits down would otherwise leave them stranded in a list that no
-        // longer contains what they were looking at. Riding up to the headline puts the answer —
-        // the count, the faces, the chips — on screen at the moment it changes.
-        LaunchedEffect(authorFilter) {
-            if (authorFilter.isNotEmpty() && listState.firstVisibleItemIndex > 1) {
-                listState.animateScrollToItem(1)
-            }
-        }
+        var isPullRefreshing by remember { mutableStateOf(false) }
 
         Box(modifier = Modifier.padding(padding).fillMaxSize()) {
             PullToRefreshBox(
-                isRefreshing = refreshing,
-                onRefresh = { viewModel.refreshFeed(GitHubRepository.Freshness.Force) },
+                isRefreshing = isPullRefreshing,
+                onRefresh = {
+                    eggScope.launch {
+                        isPullRefreshing = true
+                        try {
+                            viewModel.refreshPresence()
+                            kotlinx.coroutines.delay(400)
+                        } finally {
+                            isPullRefreshing = false
+                        }
+                    }
+                },
             ) {
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.fillMaxWidth(),
-                    // The feed starts below the header and scrolls up underneath it, which is
-                    // what lets the header get out of the way as the content arrives.
-                    contentPadding =
-                        PaddingValues(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = with(density) { headerHeightPx.toDp() } + 16.dp,
-                            bottom = 16.dp,
-                        ),
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    // Everything short and actionable comes first. The activity rail is
-                    // open-ended — six months can be a hundred rows — so anything placed after it
-                    // is effectively unreachable without a long scroll.
                     item {
-                        TakePartSection(
-                            onOpen = ::open,
-                            onCanary = onOpenCanary,
-                            onReport = onOpenReport,
+                        LsPatchStatusCard(
+                            status = status,
+                            onOpenStatus = onOpenStatus,
+                            onSoftReboot = {
+                                eggScope.launch {
+                                    ServiceLocator.daemon.softReboot()
+                                    snackbars.show(context.getString(R.string.action_soft_reboot))
+                                }
+                            },
                         )
-                        Spacer(Modifier.height(14.dp))
-                        ProjectFooter(feed = feed, onClick = { open(GitHubRepository.REPO_URL) })
-                        Spacer(Modifier.height(26.dp))
                     }
 
-                    communitySection(
-                        feed = feed,
-                        items = feedItems,
-                        loadingHistory = loadingHistory,
-                        historyStalled = historyStalled,
-                        windowChanged = windowChanged,
-                        authorFilter = authorFilter,
-                        onLoadMoreHistory = viewModel::loadMoreHistory,
-                        onToggleAuthor = viewModel::toggleAuthorFilter,
-                        onClearAuthors = viewModel::clearAuthorFilter,
-                        onOpenCommit = { c -> open(c.htmlUrl ?: GitHubRepository.REPO_URL) },
-                        onOpenPullRequest = { pr -> open("${GitHubRepository.REPO_URL}/pull/$pr") },
-                        onOpenProfile = { c -> open(c.profileUrl ?: GitHubRepository.REPO_URL) },
-                    )
+                    item {
+                        LsPatchModulesCard(
+                            enabledCount = enabledModulesCount,
+                            onClick = onOpenModules,
+                        )
+                    }
 
-                    item { Spacer(Modifier.height(24.dp)) }
+                    item {
+                        LsPatchInfoCard(
+                            status = status,
+                            onCopy = { infoText ->
+                                val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                cm.setPrimaryClip(ClipData.newPlainText("Vector-it", infoText))
+                                eggScope.launch {
+                                    snackbars.show("已复制框架与设备信息到剪贴板")
+                                }
+                            }
+                        )
+                    }
+
+                    item {
+                        LsPatchSupportCard(
+                            onOpenUrl = ::open,
+                            onOpenReport = onOpenReport,
+                            onOpenUpdate = onOpenUpdate,
+                            onOpenCanary = onOpenCanary,
+                            hasUpdate = frameworkUpdate.hasUpdate,
+                            onSoftReboot = {
+                                eggScope.launch {
+                                    ServiceLocator.daemon.softReboot()
+                                    snackbars.show(context.getString(R.string.action_soft_reboot))
+                                }
+                            },
+                        )
+                    }
+
+                    item { Spacer(Modifier.height(8.dp)) }
                 }
             }
-
-            ScrollControls(
-                listState = listState,
-                modifier = Modifier.align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 12.dp),
-            )
-
-            StatusHeader(
-                brand = stringResource(R.string.app_name),
-                statusWord = stringResource(status.state.statusWordRes()),
-                tone = status.state.toTone(),
-                ambience = AmbienceKind.from(ambienceKey),
-                ambienceSettings = VectorAmbienceSettings,
-                statusContentDescription = stringResource(R.string.status_open_details),
-                hintStatus = hintStatus,
-                onOpenStatus = {
-                    // Counted before the navigation, not after arriving: the tap is what proves the
-                    // badge was understood, and the page has other ways in that prove nothing.
-                    viewModel.noteStatusBadgeOpened()
-                    onOpenStatus()
-                },
-                appearanceLabel = stringResource(R.string.appearance_title),
-                onOpenAppearance = { showAppearance = true },
-                languageLabel = stringResource(R.string.language_title),
-                onOpenLanguage = { showLanguage = true },
-                onBrandTap = ::onBrandTap,
-                detail = { contentColor ->
-                    val detailText =
-                        buildList {
-                                status.versionLabel?.let { add(it) }
-                                status.apiVersion?.let { add("API $it") }
-                            }
-                            .joinToString("  ·  ")
-                    if (detailText.isNotEmpty()) {
-                        // The version line becomes the way in to the update, because it is the thing
-                        // the mark is attached to. Tappable whether or not there is an update, so
-                        // "you are up to date" stays reachable.
-                        UpdatableVersion(
-                            text = detailText,
-                            hasUpdate = frameworkUpdate.hasUpdate,
-                            color = contentColor.copy(alpha = 0.75f),
-                            markColor = contentColor,
-                            modifier =
-                                Modifier.clickable(
-                                    interactionSource = remember { MutableInteractionSource() },
-                                    indication = null,
-                                    onClick = onOpenUpdate,
-                                ),
-                        )
-                    }
-                },
-                modifier =
-                    Modifier.onSizeChanged { headerHeightPx = it.height }
-                        .graphicsLayer {
-                            // Fades and drifts upward together, so the feed appears to pass over
-                            // it rather than to shove it off screen.
-                            alpha = 1f - collapse
-                            translationY = -collapse * headerHeightPx * 0.5f
-                        },
-            )
         }
     }
 
@@ -982,3 +1001,284 @@ private fun ProjectFooter(feed: CommunityFeed, onClick: () -> Unit) {
 private const val BRAND_TAP_WINDOW_MS = 2600L
 
 private const val BRAND_TAPS_TO_SUMMON = 4
+
+@Composable
+private fun LsPatchStatusCard(
+    status: FrameworkStatus,
+    onOpenStatus: () -> Unit,
+    onSoftReboot: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val active = status.state == FrameworkState.Active
+    ElevatedCard(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onOpenStatus() },
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = if (active) MaterialTheme.colorScheme.secondaryContainer
+            else MaterialTheme.colorScheme.errorContainer
+        ),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (active) {
+                Icon(
+                    Icons.Outlined.CheckCircle,
+                    contentDescription = stringResource(R.string.status_active),
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.size(32.dp)
+                )
+                Column(Modifier.padding(start = 14.dp).weight(1f)) {
+                    Text(
+                        text = "Vector-it " + stringResource(R.string.status_active),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        text = "API ${status.apiVersion ?: 102} · Core v${status.versionLabel ?: "2.2"}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.85f)
+                    )
+                }
+            } else {
+                Icon(
+                    Icons.Outlined.Warning,
+                    contentDescription = stringResource(status.state.statusWordRes()),
+                    tint = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.size(32.dp)
+                )
+                Column(Modifier.padding(start = 14.dp).weight(1f)) {
+                    Text(
+                        text = "Vector-it " + stringResource(status.state.statusWordRes()),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        text = "核心服务未激活，请检查 Zygisk 模块或重启设备",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.85f)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LsPatchModulesCard(
+    enabledCount: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    ElevatedCard(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            Icon(
+                Icons.Rounded.Extension,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(28.dp)
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "模块管理",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(Modifier.height(1.dp))
+                Text(
+                    text = if (enabledCount > 0) "已激活 $enabledCount 个模块" else "点击查看并管理模块",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Icon(
+                Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun LsPatchInfoCard(
+    status: FrameworkStatus,
+    onCopy: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val apiVersion = if (Build.VERSION.PREVIEW_SDK_INT != 0) {
+        "${Build.VERSION.CODENAME} Preview (API ${Build.VERSION.PREVIEW_SDK_INT})"
+    } else {
+        "${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})"
+    }
+    val device = buildString {
+        append(Build.MANUFACTURER.replaceFirstChar { it.uppercase() })
+        if (Build.BRAND != Build.MANUFACTURER) {
+            append(" " + Build.BRAND.replaceFirstChar { it.uppercase() })
+        }
+        append(" " + Build.MODEL)
+    }
+
+    ElevatedCard(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
+            val contents = StringBuilder()
+            val infoRow: @Composable (String, String) -> Unit = { title, value ->
+                contents.appendLine("$title: $value")
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Text(
+                        text = value,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = FontFamily.Monospace,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                }
+            }
+
+            infoRow("API 版本", "${status.apiVersion ?: 102}")
+            infoRow("Vector-it 核心版本", "${status.versionName ?: "2.2"} (${status.versionCode})")
+            infoRow("SELinux 状态", if (status.sepolicyLoaded) "Enforcing" else "Permissive")
+            infoRow("System Server 注入", if (status.systemServerInjected) "已注入" else "未注入")
+            infoRow("系统版本", apiVersion)
+            infoRow("设备型号", device)
+            infoRow("系统架构 (ABI)", Build.SUPPORTED_ABIS.firstOrNull() ?: "arm64-v8a")
+
+            Spacer(Modifier.height(4.dp))
+            TextButton(
+                modifier = Modifier.align(Alignment.End),
+                onClick = { onCopy(contents.toString().trim()) },
+                contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+            ) {
+                Icon(
+                    Icons.Rounded.ContentCopy,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(Modifier.width(4.dp))
+                Text(stringResource(android.R.string.copy), style = MaterialTheme.typography.labelMedium)
+            }
+        }
+    }
+}
+
+@Composable
+private fun LsPatchSupportCard(
+    onOpenUrl: (String) -> Unit,
+    onOpenReport: () -> Unit,
+    onOpenUpdate: () -> Unit,
+    onOpenCanary: () -> Unit,
+    hasUpdate: Boolean,
+    onSoftReboot: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    ElevatedCard(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
+            Text(
+                text = "快捷操作与支持",
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedButton(
+                    onClick = { onOpenUrl(GitHubRepository.REPO_URL) },
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(vertical = 6.dp)
+                ) {
+                    Text("GitHub", style = MaterialTheme.typography.labelLarge)
+                }
+                OutlinedButton(
+                    onClick = onOpenReport,
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(vertical = 6.dp)
+                ) {
+                    Text("系统诊断", style = MaterialTheme.typography.labelLarge)
+                }
+            }
+            Spacer(Modifier.height(6.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedButton(
+                    onClick = onSoftReboot,
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(vertical = 6.dp)
+                ) {
+                    Text("软重启", style = MaterialTheme.typography.labelLarge)
+                }
+                Button(
+                    onClick = onOpenUpdate,
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(vertical = 6.dp)
+                ) {
+                    Text(if (hasUpdate) "有新版本" else "检查更新", style = MaterialTheme.typography.labelLarge)
+                }
+            }
+        }
+    }
+}

@@ -6,9 +6,13 @@
 -keep class org.matrix.vector.manager.Constants {
     public static boolean setBinder(android.os.IBinder);
 }
+-keep class org.javsaia.vector.manager.Constants {
+    public static boolean setBinder(android.os.IBinder);
+}
 
 # ParasiticManagerHooker redirects the resolved activity to this class by name.
 -keep class org.matrix.vector.manager.ui.MainActivity { <init>(); }
+-keep class org.javsaia.vector.manager.ui.MainActivity { <init>(); }
 
 # AIDL stubs and the parcelables crossing the daemon boundary.
 -keep class org.matrix.vector.ipc.** { *; }

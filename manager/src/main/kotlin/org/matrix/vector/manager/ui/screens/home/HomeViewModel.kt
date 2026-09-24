@@ -598,10 +598,10 @@ class HomeViewModel(
                 // writer wins the race — and the lambda here would be a network fetch, an archive
                 // append, a snapshot rewrite and a several-thousand-commit re-parse. Three writers
                 // touch this flow: the window collector, pull-to-refresh and the backfill.
-                val loaded = github.load(freshness)
+                val loaded = kotlinx.coroutines.withTimeoutOrNull(4_000L) {
+                    github.load(freshness)
+                } ?: github.load(GitHubRepository.Freshness.Cached)
                 _feed.value = loaded
-                // Any load that asked the network for something settles the debt below, whether or
-                // not the answer came from there in the end.
                 if (freshness != GitHubRepository.Freshness.Cached) _windowChanged.value = false
             } finally {
                 // Given back even when the load threw. A flag left set spins the indicator for the

@@ -94,6 +94,8 @@ object ConfigCache {
                   val info =
                       packageManager?.getPackageInfoCompat(
                           BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME, 0, 0)
+                          ?: packageManager?.getPackageInfoCompat(
+                              "org.matrix.vector.manager", 0, 0)
                   val uid = info?.applicationInfo?.uid
                   val installedApkPath = info?.applicationInfo?.sourceDir
                   if (uid == null || installedApkPath == null) {

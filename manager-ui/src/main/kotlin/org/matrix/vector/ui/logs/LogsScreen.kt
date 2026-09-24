@@ -12,6 +12,10 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
@@ -216,30 +220,19 @@ fun LogsScreen(
 
     Scaffold(
         modifier = modifier,
-        snackbarHost = { SnackbarHost(snackbars) },
-    ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            // The same header the other two list panels use, so the search field below it sits at
-            // the same height on all three.
-            PanelHeader(
-                title = stringResource(R.string.logs_title),
-                modifier =
-                    Modifier.partSwipe(currentState) { viewModel.selectPart(currentTab, it) },
-                description = {
-                    WindowCounter(currentState) { viewModel.selectPart(currentTab, it) }
-                },
-                search = {
-                    LogSearch(
-                        tab = currentTab,
-                        state = currentState,
-                        viewModel = viewModel,
-                        onSelectTab = { currentTab = it },
-                        showSourceToggle = hasVerboseStream,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.logs_title),
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Monospace,
+                        style = MaterialTheme.typography.titleMedium,
                     )
                 },
                 actions = {
-                    // Selected, not shouted: a quiet neutral container says pressed-in without
-                    // making a reading preference look like the most important control here.
                     FilledIconToggleButton(
                         checked = wordWrap,
                         onCheckedChange = { viewModel.setWordWrap(it) },
@@ -263,8 +256,25 @@ fun LogsScreen(
                             contentDescription = stringResource(R.string.logs_settings),
                         )
                     }
-                },
+                }
             )
+        },
+        snackbarHost = { SnackbarHost(snackbars) },
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp, vertical = 4.dp)
+            ) {
+                LogSearch(
+                    tab = currentTab,
+                    state = currentState,
+                    viewModel = viewModel,
+                    onSelectTab = { currentTab = it },
+                    showSourceToggle = hasVerboseStream,
+                )
+            }
             LogPane(
                 tab = currentTab,
                 viewModel = viewModel,

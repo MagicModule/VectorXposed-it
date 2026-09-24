@@ -112,6 +112,11 @@ bool InstallNativeAPI(const lsplant::HookHandler &handler);
 void RegisterNativeLib(const std::string &library_name);
 
 /**
+ * @brief Checks if a native library is registered for module initialization.
+ */
+bool IsNativeLibRegistered(const std::string &library_name);
+
+/**
  * @brief A wrapper around DobbyHook.
  */
 inline int HookInline(void *original, void *replace, void **backup) {

@@ -29,7 +29,6 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material.icons.rounded.Waves
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -63,7 +62,6 @@ import org.matrix.vector.ui.LocalDialogLocalizer
 import org.matrix.vector.ui.R
 import org.matrix.vector.ui.SheetHeading
 import org.matrix.vector.ui.ToggleRow
-import org.matrix.vector.ui.ambience.AmbienceKind
 import org.matrix.vector.ui.theme.SeedScheme
 import org.matrix.vector.ui.theme.ThemeMode
 
@@ -87,7 +85,6 @@ fun AppearanceSheet(
     val dynamicColor by settings.dynamicColor.collectAsStateWithLifecycle()
     val amoled by settings.amoledBlack.collectAsStateWithLifecycle()
     val seed by settings.seedColor.collectAsStateWithLifecycle()
-    val ambience by settings.headerAmbience.collectAsStateWithLifecycle()
     val resolvedDark =
         when (ThemeMode.from(themeMode)) {
             ThemeMode.System -> isSystemInDarkTheme()
@@ -124,18 +121,7 @@ fun AppearanceSheet(
                     onCheckedChange = settings::setAmoledBlack,
                 )
 
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
 
-                SheetHeading(stringResource(R.string.settings_ambience), Icons.Rounded.Waves)
-                ChoiceRow {
-                    AmbienceKind.entries.forEach { kind ->
-                        FilterChip(
-                            selected = AmbienceKind.from(ambience) == kind,
-                            onClick = { settings.setHeaderAmbience(kind.key) },
-                            label = { Text(stringResource(kind.labelRes())) },
-                        )
-                    }
-                }
 
                 // A host-supplied tail — LSPatch hangs its floating-navigation toggle here — so a
                 // consumer can add its own settings without the sheet knowing what they are.
@@ -364,13 +350,4 @@ private fun ThemeMode.labelRes(): Int =
         ThemeMode.System -> R.string.appearance_theme_system
         ThemeMode.Light -> R.string.appearance_theme_light
         ThemeMode.Dark -> R.string.appearance_theme_dark
-    }
-
-private fun AmbienceKind.labelRes(): Int =
-    when (this) {
-        AmbienceKind.Snow -> R.string.ambience_snow
-        AmbienceKind.Maze -> R.string.ambience_maze
-        AmbienceKind.Circuit -> R.string.ambience_circuit
-        AmbienceKind.Matrix -> R.string.ambience_matrix
-        AmbienceKind.None -> R.string.ambience_none
     }

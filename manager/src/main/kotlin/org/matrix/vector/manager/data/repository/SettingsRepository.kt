@@ -527,6 +527,6 @@ class SettingsRepository(context: Context) : StoreSettings, NetworkSettings {
          * Must match an `AmbienceKind` key. An unknown one falls back harmlessly, but a stored
          * default that names no surface misleads whoever reads the preferences next.
          */
-        const val DEFAULT_AMBIENCE = "maze"
+        const val DEFAULT_AMBIENCE = "none"
     }
 }

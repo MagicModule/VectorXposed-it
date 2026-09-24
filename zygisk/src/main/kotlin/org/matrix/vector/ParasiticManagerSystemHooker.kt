@@ -77,7 +77,8 @@ class ParasiticManagerSystemHooker : HandleSystemServerProcessHooker.Callback {
                     val intent = chain.args[0] as? Intent ?: return@intercept result
 
                     // Check if this intent is meant for the Vector Manager
-                    if (!intent.hasCategory(BuildConfig.ManagerPackageName + ".LAUNCH_MANAGER"))
+                    if (!intent.hasCategory(BuildConfig.ManagerPackageName + ".LAUNCH_MANAGER") &&
+                        !intent.hasCategory("org.matrix.vector.manager.LAUNCH_MANAGER"))
                         return@intercept result
 
                     val originalActivityInfo =
@@ -150,7 +151,8 @@ class ParasiticManagerSystemHooker : HandleSystemServerProcessHooker.Callback {
                         val activityRecord = chain.args[0]
                         val info = infoField.get(activityRecord) as ActivityInfo
 
-                        if (info.processName == BuildConfig.ManagerPackageName) {
+                        if (info.processName == BuildConfig.ManagerPackageName ||
+                            info.processName == "org.matrix.vector.manager") {
                             Utils.logD("Suppressing Android 12+ Splash Screen for Vector Manager.")
                             return@intercept null
                         }
@@ -182,7 +184,8 @@ class ParasiticManagerSystemHooker : HandleSystemServerProcessHooker.Callback {
                         val activityRecord = chain.thisObject
                         val info = infoField.get(activityRecord) as ActivityInfo
 
-                        if (info.processName == BuildConfig.ManagerPackageName) {
+                        if (info.processName == BuildConfig.ManagerPackageName ||
+                            info.processName == "org.matrix.vector.manager") {
                             Utils.logD("Suppressing Legacy Starting Window for Vector Manager.")
                             return@intercept null
                         }

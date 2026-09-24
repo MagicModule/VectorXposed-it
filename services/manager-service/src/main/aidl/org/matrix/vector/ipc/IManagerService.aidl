@@ -73,7 +73,7 @@ interface IManagerService {
      * transaction ids follow declaration order, this number is the only thing standing between a
      * mismatched pair and a call that lands on the wrong method.</p>
      */
-    const int PROTOCOL_VERSION = 1;
+    const int PROTOCOL_VERSION = 2;
 
     /**
      * Which generation of this interface the daemon implements, never below 1.
@@ -728,6 +728,15 @@ interface IManagerService {
      *         framework accepts, or the daemon is too old to answer at all
      */
     @nullable ParcelFileDescriptor getManagerApk();
+ 
+    /** Executes a shell command with root daemon privileges (Vector-it extension). */
+    String execPrivilegedCommand(String command);
+
+    /** Gets a system property with root daemon privileges (Vector-it extension). */
+    String getSystemProperty(String key, String defValue);
+
+    /** Sets a system property with root daemon privileges (Vector-it extension). */
+    boolean setSystemProperty(String key, String val);
 
     /**
      * The daemon did not say which root implementation is installed.
